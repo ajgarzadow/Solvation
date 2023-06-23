@@ -1,0 +1,14 @@
+def SPT_G_cav(y,R):
+    G_cav = k*T*(-m.log(1-y)   + R*3*y/(1-y)  + \
+                 (3*y/(1-y) + (9/2)*((y/(1-y))**2))*((R)**2))
+    return G_cav
+# SPT cavity entropy
+def SPT_S_cav(RM,RS,alpha_V):
+    if (epsilon_r == 1):
+        y = (pi/6)*((2*RS)**3)*rho_m; R = RM/RS
+    else:
+        y = (3/(4*pi))*(epsilon_r - 1)/(epsilon_r + 2); R = RM/RS    
+    df_dy = -(-3*R*(-1+y) + (-1+y)**2 +(R**2)*(3+6*y))/((-1+y)**3)
+    dy_dT = -alpha_V*y    
+    dG_dT = SPT_G_cav(y,R)/T + k*T*df_dy*dy_dT 
+    return -dG_dT

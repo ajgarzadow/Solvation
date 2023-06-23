@@ -1,0 +1,34 @@
+Solvent epsilon_r =  1.657
+Solvent Density (g/mL) =  2.413
+Minimum Bounding Box Solute (Angstroms) =  97.9296
+Minimum Bounding Box Solvent (Angstroms) =  97.9296
+Phi Solute =  0.5167
+Phi Solvent =  0.5324
+Coefficient of thermal expansion alpha not given.
+Assumed alpha = 0
+Nc =  1.00
+Solvent Number Density (molecules/Angstrom) =  0.017
+alpha(user)/K =  0
+omega(user) =  0.005
+Calculation time (s) =  0.002
+ ------ Areas and Volumes in Angstrom ------ 
+Free volume per solvent particle  =  23.14285
+area_solute  =  50.59915
+vol_solute =  34.38073
+area_solvent =  52.13422
+vol_solvent =  34.52527
+ ------ Enthalpies in kcal/mol ------ 
+H t r v sol =  0.35 0.00 0.00 0.00
+ ------ Entropies in cal/mol-K ------ 
+S_gas t r v =  34.52 0.00 0.00
+S_gas (Total) =  34.52
+S_sol t r v cav (omega) =  26.06 0.00 0.00 -1.86
+S_sol (Total-omega) =  24.20
+S_sol t r v cav (epsilon) =  26.06 0.00 0.00 -0.64
+S_sol (epsilon) =  25.43
+S_sol t r v cav (eps-alpha) =  26.06 0.00 0.00 -0.64
+S_sol (eps-alpha) =  25.43
+R*ln(c_gas/c_sol) =  -11.18
+Solvation Entropies: 
+Omega Epsilon Eps-Alpha
+-21.49 -20.27 -20.27

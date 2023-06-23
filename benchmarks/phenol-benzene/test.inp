@@ -1,0 +1,36 @@
+
+solvent = benzene.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 1
+symmetry = 1
+symmetry_solvent = 12
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+omega = 0.212 # benzene
+
+area_solute  =  309.01293
+vol_solute =  89.69941
+
+
+area_solvent =  297.91493296983236
+#vol_solvent =  82.64688828886726
+
+dipole_solute = 1.832
+dipole_solvent = 0
+epsilon_r = 2.27
+
+rho_solvent = 0.876
+alpha = 0.00125
+dipole_file = calc.log
+dipole_file_solvent = benzene.log

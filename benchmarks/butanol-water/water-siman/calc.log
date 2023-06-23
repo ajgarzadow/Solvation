@@ -1,0 +1,1438 @@
+ 
+        ______________________________________
+       |                                      |
+       |           ==================         |
+       |                 x T B                |
+       |           ==================         |
+       |               S. Grimme              |
+       |        Universitaet Bonn, MCTC       |
+       |         2015-18, Version 5.8.1       |
+       |      Sun May  6 11:39:08 CEST 2018   |
+       |______________________________________|
+ 
+        This code comes without any warranty
+        for non-commercial, academia use only.
+        Preliminary GFN2 test version.
+        Test license to: Dow Chemical Company
+        Cite GFN-xTB work as:
+        S. Grimme, C. Bannwarth, P. Shushkov
+        JCTC, 13 (2017) 1989-2009
+        for GFN2:
+        C. Bannwarth, S. Ehlert, S. Grimme
+        to be published.
+        sTDA-xTB:
+        S. Grimme  &  C. Bannwarth, JCP 145 (2016) 054103
+        in the mass-spec context additionally:
+        V. Asgeirsson, C.Bauer, S. Grimme, Chem. Sci. 8 (2017) 4879
+ 
+        with help from
+        P. Shushkov, G. Brandenburg, S. Dohm, J. Pisarek,
+        F. März, M. Checinski, S. Ehrlich, S. Spicher, 
+        P. Pracht, E. Caldeweyher, S. Ehlert, and C. Bannwarth.
+ 
+        usage        :
+        xtb <coord_file> [options]
+        where <coord_file> is a valid file of TM)
+        (*coord, Bohr) or xmol (*xyz, Angstroem)
+        format.
+
+        options:
+        -chrg <int>   : molecular charge
+        -uhf  <int>   : # of unpaired electrons(=2*S)
+        -nox          : skip second, extended part in sTDA-xTB
+        -pop          : do population analysis
+                      : (default for -nox)
+        -mowr <real>  : cut MO write above (def.3 Eh)
+        -molden       : write formatted molden file
+        -parx <file>  : read parameters for sTDA-xTB
+                        calc (def:~/.param_stda2.xtb)
+        -parv <file>  : read parameters for vTB part in
+                        sTDA-xTB (def: ~/.param_stda1.xtb)
+        -xtemp <real> : el. temp for xTB (def. 0 K)
+        -etemp <real> : el. temp for GFN (def. 300 K)
+        -fod          : calculate the FOD and write
+                        molden.input file with
+                        appropriate occupations
+                        for plotting. Def. T=12500 K
+ 
+        -gfn1         : use GFN-xTB
+        -gfn2         : use GFN2-xTB
+        -gfn2d3       : GFN2-xTB with D3 instead of D4
+        -grad         : GFNn-xTB gradient
+        -acc <real>   : GFNn-xTB accuracy (def. 1.0)
+        -opt [level]  : optimize at GFNn-xTB
+                      : level=crude,vloose,loose,
+                      :       tight,vtight
+        -hess         : compute Hessian at GFNn-xTB
+        -ohess        : optimize and compute Hessian
+        -omd          : optimize and do MD
+        -siman        : conformational search
+        -screen       : opt. loop over ensemble
+        -gmd          : annealed MD for GMD procedure
+        -modef        : vib mode following
+        -gbsa [string1] [string2]
+                        use GBSA implicit solvent
+                        for solvent [string1] and
+                        solvation state [string2]=
+                        reference, bar1M (default=1M)
+        additional GFN/opt/MD/siman options read from
+        $XTBHOME/.xtbrc or $set in coordinate file
+ 
+       spin and charge state information can be on:
+       <.CHRG> (charge) and <.UHF> (=nalpha-nbeta)
+       -uhf and -chrg override the file info.
+       useful machine settings:
+       setenv MKL_NUM_THREADS <NCORE_ON_YOUR_MACHINE>
+       setenv OMP_STACKSIZE 500m
+       limit stacksize unlimited
+ 
+       total energies in Eh, gaps/HL energies in eV
+       please read REVISION and HOWTO files carefully
+         143  days left until this code expires
+ =============================
+  # OMP threads =           2
+ =============================
+ 
+ xtbhome directory:/home/ua25450/dftb/
+ 
+ argument            1 :-siman
+ argument            2 :-gbsa
+ argument            3 :h2o
+ 
+ name of molecule           :
+ comment line               :
+ number of atoms            :    15
+ number of electrons        :    32
+ charge                     :  0
+ spin                       : 0.0
+ first test random number   :  0.4027
+ 
+ 
+ -----------------------------------------
+  G F N (Geometry, Frequency, Non-covalent)
+        parametrization, gfnver=           3
+     D4 dispersion model
+ /home/ua25450/dftb/.param_gfn2.xtb
+ -----------------------------------------
+      method parameters     
+ k(s)        :  1.8500
+ k(p)        :  2.2300
+ k(d)        :  2.2300
+ k(f)        :  2.0000
+ kEN (H0ij)  : -2.0000
+ D3 a1       :  0.5200
+ D3 a2       :  5.0000
+ D3 s8       :  2.7000
+ D3atm       :  5.0000
+ alphaj      :  2.0000
+ 
+ Solvent             : h2o
+ GBSA parameter file : /home/ua25450/dftb/.param_gbsa_h2o
+ Gsolv ref. state (COSMO-RS): gsolv [1 M gas/solution]
+ temperature (mdtemp)       :    298.150000000000     
+ dielectric constant        :    78.5000000000000     
+ rho                        :   0.998000000000000     
+ mass                       :    18.0000000000000     
+ surface tension            :    15.5689470637553     
+ probe radius               :   0.976041290000000     
+ vdW radii scaling          :    1.00000000000000     
+ Gshift (Eh)                :   2.075470419022681E-003
+ c1                         :    1.58079374000000     
+ soset                      :   7.194512000000000E-002
+ HB correction              :  T
+ 
+ doing EN charges ...
+ sum q : -0.7771561D-15
+ point charge moment (au)
+     X       Y       Z   
+   0.1463   0.2069  -0.0557  total (Debye):    0.660
+ 
+            Z     q(EN)     CN     RAES       Cart. coordinates
+     1  C   4.0   -0.09    4.11    3.81    -6.87138     0.44580     0.01878
+     2  H   1.0    0.05    1.01    1.43    -6.21449    -1.50818     0.06400
+     3  H   1.0    0.05    1.01    1.43    -8.93257     0.41243     0.06342
+     4  C   4.0   -0.03    4.04    3.70    -5.93217     1.77569     2.39562
+     5  H   1.0    0.04    1.00    1.43    -3.85290     1.80196     2.41070
+     6  H   1.0    0.04    1.00    1.43    -6.60097     3.74464     2.40971
+     7  O   6.0   -0.17    2.03    1.83    -6.86198     0.46148     4.52380
+     8  H   1.0    0.11    1.02    1.43    -6.27947     1.28600     6.03645
+     9  C   4.0   -0.09    4.06    3.72    -5.95322     1.74442    -2.38491
+    10  H   1.0    0.04    1.01    1.43    -3.88885     1.78128    -2.39642
+    11  H   1.0    0.04    1.01    1.43    -6.61172     3.70127    -2.39923
+    12  C   4.0   -0.13    4.02    3.65    -6.90074     0.39715    -4.74619
+    13  H   1.0    0.04    1.00    1.43    -8.95531     0.37322    -4.78558
+    14  H   1.0    0.04    1.00    1.43    -6.22941     1.34783    -6.44003
+    15  H   1.0    0.04    1.00    1.43    -6.23212    -1.54578    -4.78336
+ 
+  Z AO/shell   Hii/eV     exponent
+  1     Wed Apr 25 08:07:45 CEST 2018   EN: 2.200 GM2: 0.406  GM3: 0.0800  RAES: 1.40
+     1s    -10.707211    1.230000
+  6     Wed Apr 25 08:07:45 CEST 2018   EN: 2.550 GM2: 0.538  GM3: 0.1500  RAES: 3.00
+     2s    -13.970922    2.096432
+     2p    -10.063292    1.800000
+  8     Wed Apr 25 08:07:45 CEST 2018   EN: 3.440 GM2: 0.452  GM3:-0.0517  RAES: 1.80
+     2s    -20.229985    2.439742
+     2p    -15.503117    2.137023
+ no old-style atom pair restraing (fixing) potential
+ 
+             =======================================
+             |                                     |
+             |        S C C  calculation           |
+             |                                     |
+             =======================================
+ #proc     :            2
+ Ncao      :           30
+ Nao       :           30
+ Nel       :           32
+ T(el)     :   300.0
+ intcut    :    25.0
+ scfconv   :  0.100E-05
+   qconv   :  0.100E-03
+ intneglect:  0.100E-07
+ broydamp  :      0.400
+ Nshell    :           20
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1    -17.9115934 -0.179116E+02  0.385E+00   12.22       0.0  T
+   2    -17.9412511 -0.296577E-01  0.194E+00   12.20       1.0  T
+   3    -17.9442919 -0.304076E-02  0.526E-01   12.08       1.0  T
+   4    -17.9444293 -0.137408E-03  0.200E-01   12.11       1.0  T
+   5    -17.9444780 -0.487884E-04  0.625E-02   12.15       1.0  T
+   6    -17.9444840 -0.600224E-05  0.244E-02   12.16       1.1  T
+   7    -17.9444844 -0.352399E-06  0.566E-03   12.16       4.6  T
+   8    -17.9444845 -0.489702E-07  0.197E-03   12.16      13.1  T
+   9    -17.9444845 -0.192192E-08  0.445E-04   12.16      58.0  T
+  10    -17.9444845 -0.839854E-09  0.117E-04   12.16     220.0  T
+speedup  1.71
+cpu  time for SCC    0.03 s
+wall time for SCC    0.02 s
+
+          eigenvalues
+ #    :           4          5          6          7          8          9         10         11
+ occ. :        2.000      2.000      2.000      2.000      2.000      2.000      2.000      2.000
+ eps  :       -15.817    -15.575    -14.961    -14.563    -14.001    -13.667    -13.186    -12.655
+ #    :          12         13         14         15         16         17         18         19
+ occ. :        2.000      2.000      2.000      2.000      2.000      0.000      0.000      0.000
+ eps  :       -12.463    -11.934    -11.875    -11.612    -11.154      1.004      2.687      3.260
+ #    :          20         21         22         23         24         25         26         27
+ occ. :        0.000      0.000      0.000      0.000      0.000      0.000      0.000      0.000
+ eps  :         3.415      3.953      4.369      4.512      5.057      5.058      6.393      6.604
+ 
+
+   #   Z            q   n(s)   n(p)   n(d)      C6AA      α(0)    relVol
+   1   6 C     -0.065  1.051  3.013  0.000    21.802     6.655     0.539
+   2   1 H      0.040  0.960  0.000  0.000     2.448     2.447     0.484
+   3   1 H      0.040  0.960  0.000  0.000     2.448     2.447     0.484
+   4   6 C      0.085  1.038  2.877  0.000    19.514     6.353     0.514
+   5   1 H      0.023  0.977  0.000  0.000     2.688     2.564     0.507
+   6   1 H      0.023  0.977  0.000  0.000     2.689     2.564     0.507
+   7   8 O     -0.498  1.729  4.769  0.000    23.393     6.544     1.259
+   8   1 H      0.331  0.669  0.000  0.000     0.573     1.188     0.235
+   9   6 C     -0.058  1.049  3.009  0.000    21.704     6.644     0.538
+  10   1 H      0.035  0.965  0.000  0.000     2.508     2.476     0.490
+  11   1 H      0.035  0.965  0.000  0.000     2.509     2.476     0.490
+  12   6 C     -0.109  1.038  3.071  0.000    22.772     6.825     0.552
+  13   1 H      0.038  0.962  0.000  0.000     2.470     2.457     0.486
+  14   1 H      0.042  0.958  0.000  0.000     2.410     2.427     0.480
+  15   1 H      0.038  0.962  0.000  0.000     2.470     2.457     0.486
+
+ Mol. C6AA /au*bohr^6 :       1466.731980
+ Mol. C8AA /au*bohr^6 :      30007.805780
+ Mol. a(0) /au        :         56.525522
+
+ 
+ Wiberg/Mayer (AO) data. WBOs > 0.1 written file <wbo>
+ largest (>0.05) Wiberg bond orders for each atom
+           total WBO             WBO to atom ...
+     1  C   3.995    C    9 1.008    C    4 1.005    H    3 0.977    H    2 0.977
+     2  H   0.998    C    1 0.977
+     3  H   0.998    C    1 0.977
+     4  C   3.952    C    1 1.005    O    7 0.989    H    6 0.972    H    5 0.972
+     5  H   0.999    C    4 0.972
+     6  H   0.999    C    4 0.972
+     7  O   1.918    C    4 0.989    H    8 0.878
+     8  H   0.890    O    7 0.878
+     9  C   3.997    C   12 1.020    C    1 1.008    H   11 0.978    H   10 0.978
+    10  H   0.999    C    9 0.978
+    11  H   0.999    C    9 0.978
+    12  C   3.996    C    9 1.020    H   13 0.988    H   15 0.988    H   14 0.987
+    13  H   0.999    C   12 0.988
+    14  H   0.998    C   12 0.987
+    15  H   0.999    C   12 0.988
+ 
+molecular dipole:
+                 x           y           z       tot (Debye)
+ q only:        0.326       0.462      -0.093
+   full:        0.759       0.620       0.013       1.929
+molecular quadrupole (traceless):
+                xx          xy          yy          xz          yz          zz
+ q only:       -6.188      -3.911       1.605       3.138       3.026       4.582
+  q+dip:       -6.893      -6.214       2.881       3.065       4.534       4.013
+   full:       -7.553      -5.722       2.570       3.013       4.463       4.984
+ SCC converged in           10  cycles
+ 
+SCC energy    :     -17.9400185
+rep           :       0.2144387
+ES            :       0.0327463
+AES           :       0.0040236
+AXC           :       0.0059788
+disp          :      -0.0068919
+XB            :       0.0000000
+fix           :       0.0000000
+Gborn         :      -0.0062854
+Gsasa         :       0.0023905
+Ghb           :      -0.0041868
+Gshift        :       0.0020755
+Gsolv         :      -0.0060063       -3.77
+Etot ala COSMO:     -17.7258591
+total E       :     -17.7255799
+atomizationE  :       3.5334472     2217.27
+(atE without considerung molecular charge,
+ total energy contains solvation terms)
+H-L gap (eV)  :         12.1587
+ 
+       =======================================
+       |              S I M A N              |
+       |         conformational search       |
+       =======================================
+ 
+ trajectories on xtb.trj.<n>
+Max. temperature : 1000.0
+Min. temperature :  298.1
+time (ps)        :   50.0
+ optlevel        :           0
+ nall            :         151
+ 
+ MD time /ps        :   16.67
+ dt /fs             :    4.00
+ SCC accuracy       :    1.00
+ temperature /K     :  149.07
+ max steps          :  4166
+ block length (av.) :   875
+ dumpstep(trj) /fs  :   50.00    12
+ dumpstep(coords)/fs: 1000.00   250
+ minimum runtime(ps):   5.0
+ maximum runtime(ps):  16.7
+ H atoms mass (amu) :     4
+ # deg. of freedom  :    31
+ SHAKE on. # bonds  :          14  all: T
+ Berendsen THERMOSTAT on
+ EQUILIBRATION mode
+         time (ps)    <Epot>      Ekin   <T>   T     Etot
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+      0    0.00      0.00000   0.0066    0.    0.   -17.71899
+est. speed in wall clock h for 100 ps :  0.03
+    200    0.80    -17.63512   0.0021   45.   43.   -17.72119
+    400    1.60    -17.67912   0.0018   45.   37.   -17.72120
+    600    2.40    -17.69383   0.0032   45.   65.   -17.72046
+    800    3.20    -17.70119   0.0023   45.   46.   -17.72089
+block <Epot> / <T> :     -17.72332   45.     drift:  0.99D+02   Tbath :  67.
+   1000    4.00    -17.70552   0.0034   46.   69.   -17.71913
+   1200    4.80    -17.70830   0.0027   50.   55.   -17.71877
+   1400    5.60    -17.71028   0.0025   52.   52.   -17.71893
+   1600    6.40    -17.71177   0.0039   54.   80.   -17.71781
+block <Epot> / <T> :     -17.72223   66.     drift:  0.99D+02   Tbath : 101.
+   1800    7.20    -17.71290   0.0050   56.  102.   -17.71638
+   2000    8.00    -17.71367   0.0063   60.  129.   -17.71464
+   2200    8.80    -17.71428   0.0051   64.  104.   -17.71625
+   2400    9.60    -17.71479   0.0048   67.   98.   -17.71569
+   2600   10.40    -17.71522   0.0059   69.  121.   -17.71597
+block <Epot> / <T> :     -17.72050   99.     drift:  0.99D+02   Tbath : 149.
+   2800   11.20    -17.71548   0.0078   74.  158.   -17.71119
+   3000   12.00    -17.71564   0.0064   79.  131.   -17.71280
+   3200   12.80    -17.71578   0.0075   83.  152.   -17.70973
+   3400   13.60    -17.71590   0.0073   87.  150.   -17.70942
+block <Epot> / <T> :     -17.71802  146.     drift:  0.18D-02   Tbath : 149.
+   3600   14.40    -17.71602   0.0065   90.  132.   -17.71230
+   3800   15.20    -17.71611   0.0064   94.  131.   -17.71198
+   4000   16.00    -17.71620   0.0054   96.  111.   -17.71000
+ average properties 
+ Epot               :  -17.7162772538050     
+ Epot (accurate SCC):  -17.7205077281346     
+ Ekin               :  4.827453685635662E-003
+ Etot               :  -17.7114498001193     
+ T                  :   98.3475810747435     
+ normal exit of md()
+ 
+ ===========================
+ annealing step            1
+ ===========================
+ 
+ MD time /ps        :   50.00
+ dt /fs             :    4.00
+ SCC accuracy       :    1.00
+ temperature /K     :  298.15
+ max steps          : 12500
+ block length (av.) :   875
+ dumpstep(trj) /fs  :   50.00    12
+ dumpstep(coords)/fs: 1000.00   250
+ H atoms mass (amu) :     4
+ # deg. of freedom  :    31
+ SHAKE on. # bonds  :          14  all: T
+ Berendsen THERMOSTAT on
+ RESTART
+         time (ps)    <Epot>      Ekin   <T>   T     Etot
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+      0    0.00      0.00000   0.0107    0.    0.   -17.70939
+est. speed in wall clock h for 100 ps :  0.03
+    200    0.80    -17.62739   0.0144  194.  294.   -17.70220
+    400    1.60    -17.66990   0.0192  223.  392.   -17.69528
+    600    2.40    -17.68363   0.0128  241.  261.   -17.69834
+    800    3.20    -17.69029   0.0175  252.  356.   -17.69068
+block <Epot> / <T> :     -17.71224  256.     drift:  0.99D+02   Tbath : 298.
+   1000    4.00    -17.69429   0.0174  261.  354.   -17.69504
+   1200    4.80    -17.69701   0.0121  267.  248.   -17.69508
+   1400    5.60    -17.69903   0.0199  273.  404.   -17.69527
+   1600    6.40    -17.70064   0.0171  277.  349.   -17.69565
+block <Epot> / <T> :     -17.71115  301.     drift:  0.99D+02   Tbath : 298.
+   1800    7.20    -17.70186   0.0149  279.  304.   -17.69611
+   2000    8.00    -17.70283   0.0176  281.  359.   -17.69561
+   2200    8.80    -17.70358   0.0097  282.  198.   -17.69574
+   2400    9.60    -17.70423   0.0132  283.  268.   -17.69737
+   2600   10.40    -17.70480   0.0155  285.  316.   -17.69380
+block <Epot> / <T> :     -17.71141  297.     drift:  0.99D+02   Tbath : 298.
+   2800   11.20    -17.70529   0.0124  286.  253.   -17.69448
+   3000   12.00    -17.70572   0.0099  286.  201.   -17.69654
+   3200   12.80    -17.70610   0.0157  287.  320.   -17.69460
+   3400   13.60    -17.70642   0.0163  288.  331.   -17.69561
+block <Epot> / <T> :     -17.71170  298.     drift:  0.14D-03   Tbath : 298.
+   3600   14.40    -17.70670   0.0129  288.  263.   -17.70068
+   3800   15.20    -17.70695   0.0109  289.  221.   -17.69921
+   4000   16.00    -17.70718   0.0141  289.  287.   -17.69803
+   4200   16.80    -17.70738   0.0169  290.  344.   -17.69589
+block <Epot> / <T> :     -17.71149  297.     drift: -0.13D-03   Tbath : 298.
+   4400   17.60    -17.70758   0.0137  290.  278.   -17.69447
+   4600   18.40    -17.70774   0.0153  290.  311.   -17.69792
+   4800   19.20    -17.70784   0.0141  290.  286.   -17.69517
+   5000   20.00    -17.70795   0.0205  290.  417.   -17.69563
+   5200   20.80    -17.70808   0.0145  291.  295.   -17.69563
+block <Epot> / <T> :     -17.71082  296.     drift:  0.20D-03   Tbath : 298.
+   5400   21.60    -17.70817   0.0104  291.  211.   -17.69885
+   5600   22.40    -17.70824   0.0178  291.  363.   -17.69414
+   5800   23.20    -17.70834   0.0156  292.  318.   -17.69948
+   6000   24.00    -17.70845   0.0199  292.  406.   -17.69535
+block <Epot> / <T> :     -17.71101  299.     drift:  0.27D-03   Tbath : 298.
+   6200   24.80    -17.70854   0.0164  292.  334.   -17.69590
+   6400   25.60    -17.70863   0.0190  292.  387.   -17.69724
+   6600   26.40    -17.70871   0.0184  292.  375.   -17.69828
+   6800   27.20    -17.70879   0.0172  293.  350.   -17.69667
+   7000   28.00    -17.70886   0.0177  293.  360.   -17.69458
+block <Epot> / <T> :     -17.71133  298.     drift:  0.29D-04   Tbath : 298.
+   7200   28.80    -17.70891   0.0134  293.  272.   -17.69532
+   7400   29.60    -17.70896   0.0134  293.  272.   -17.69759
+   7600   30.40    -17.70903   0.0143  293.  291.   -17.69944
+   7800   31.20    -17.70910   0.0148  293.  301.   -17.69705
+block <Epot> / <T> :     -17.71119  298.     drift: -0.14D-03   Tbath : 298.
+   8000   32.00    -17.70915   0.0185  293.  376.   -17.69868
+   8200   32.80    -17.70919   0.0099  293.  201.   -17.69781
+   8400   33.60    -17.70923   0.0164  294.  334.   -17.69452
+   8600   34.40    -17.70927   0.0154  294.  314.   -17.69625
+block <Epot> / <T> :     -17.71117  298.     drift: -0.36D-04   Tbath : 298.
+   8800   35.20    -17.70934   0.0121  294.  247.   -17.69880
+   9000   36.00    -17.70939   0.0177  294.  361.   -17.70053
+   9200   36.80    -17.70942   0.0164  294.  335.   -17.69454
+   9400   37.60    -17.70945   0.0151  294.  308.   -17.69215
+   9600   38.40    -17.70949   0.0114  294.  233.   -17.69527
+block <Epot> / <T> :     -17.71111  296.     drift:  0.68D-04   Tbath : 298.
+   9800   39.20    -17.70952   0.0145  294.  296.   -17.69866
+  10000   40.00    -17.70957   0.0108  294.  221.   -17.70040
+  10200   40.80    -17.70961   0.0182  294.  370.   -17.69387
+  10400   41.60    -17.70964   0.0136  294.  277.   -17.69779
+block <Epot> / <T> :     -17.71141  298.     drift: -0.61D-04   Tbath : 298.
+  10600   42.40    -17.70967   0.0137  294.  279.   -17.69705
+  10800   43.20    -17.70968   0.0158  294.  321.   -17.69507
+  11000   44.00    -17.70970   0.0130  294.  265.   -17.69760
+  11200   44.80    -17.70972   0.0150  294.  305.   -17.69471
+block <Epot> / <T> :     -17.71073  297.     drift:  0.10D-03   Tbath : 298.
+  11400   45.60    -17.70974   0.0127  295.  259.   -17.69385
+  11600   46.40    -17.70976   0.0133  295.  271.   -17.69895
+  11800   47.20    -17.70978   0.0160  295.  326.   -17.69495
+  12000   48.00    -17.70980   0.0138  295.  281.   -17.69580
+  12200   48.80    -17.70982   0.0142  295.  290.   -17.69545
+block <Epot> / <T> :     -17.71106  299.     drift:  0.84D-04   Tbath : 298.
+  12400   49.60    -17.70984   0.0168  295.  341.   -17.69545
+ average properties 
+ Epot               :  -17.7098549242409     
+ Epot (accurate SCC):  -17.7114100018229     
+ Ekin               :  1.447624301657919E-002
+ Etot               :  -17.6953786812243     
+ T                  :   294.918103091702     
+ normal exit of md()
+ 
+ ===========================
+ annealing step            2
+ ===========================
+ 
+ MD time /ps        :   50.00
+ dt /fs             :    4.00
+ SCC accuracy       :    1.00
+ temperature /K     :  649.08
+ max steps          : 12500
+ block length (av.) :   875
+ dumpstep(trj) /fs  :   50.00    12
+ dumpstep(coords)/fs: 1000.00   250
+ H atoms mass (amu) :     4
+ # deg. of freedom  :    31
+ SHAKE on. # bonds  :          14  all: T
+ Berendsen THERMOSTAT on
+ RESTART
+         time (ps)    <Epot>      Ekin   <T>   T     Etot
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+      0    0.00      0.00000   0.0090    0.    0.   -17.69725
+est. speed in wall clock h for 100 ps :  0.03
+    200    0.80    -17.61756   0.0235  406.  478.   -17.68530
+    400    1.60    -17.65799   0.0240  473.  490.   -17.66482
+    600    2.40    -17.67048   0.0337  515.  687.   -17.67206
+    800    3.20    -17.67625   0.0256  541.  522.   -17.66134
+block <Epot> / <T> :     -17.69786  548.     drift:  0.99D+02   Tbath : 649.
+   1000    4.00    -17.67961   0.0382  561.  779.   -17.65839
+   1200    4.80    -17.68179   0.0356  575.  726.   -17.66116
+   1400    5.60    -17.68348   0.0367  586.  747.   -17.65967
+   1600    6.40    -17.68484   0.0330  595.  673.   -17.66174
+block <Epot> / <T> :     -17.69362  651.     drift:  0.99D+02   Tbath : 649.
+   1800    7.20    -17.68584   0.0281  600.  573.   -17.65374
+   2000    8.00    -17.68654   0.0225  604.  459.   -17.66924
+   2200    8.80    -17.68714   0.0413  608.  841.   -17.65682
+   2400    9.60    -17.68772   0.0375  612.  764.   -17.65932
+   2600   10.40    -17.68813   0.0300  614.  612.   -17.66384
+block <Epot> / <T> :     -17.69340  648.     drift:  0.99D+02   Tbath : 649.
+   2800   11.20    -17.68862   0.0286  618.  583.   -17.66245
+   3000   12.00    -17.68910   0.0316  621.  644.   -17.66475
+   3200   12.80    -17.68950   0.0385  623.  783.   -17.65322
+   3400   13.60    -17.68987   0.0302  624.  615.   -17.66917
+block <Epot> / <T> :     -17.69528  650.     drift:  0.79D-03   Tbath : 649.
+   3600   14.40    -17.69013   0.0313  625.  638.   -17.65963
+   3800   15.20    -17.69031   0.0331  626.  675.   -17.67051
+   4000   16.00    -17.69052   0.0419  627.  854.   -17.66216
+   4200   16.80    -17.69074   0.0416  629.  847.   -17.66310
+block <Epot> / <T> :     -17.69455  649.     drift: -0.47D-03   Tbath : 649.
+   4400   17.60    -17.69093   0.0272  629.  553.   -17.66111
+   4600   18.40    -17.69110   0.0192  630.  391.   -17.67266
+   4800   19.20    -17.69120   0.0333  630.  677.   -17.66708
+   5000   20.00    -17.69127   0.0357  631.  727.   -17.65785
+   5200   20.80    -17.69125   0.0330  630.  673.   -17.67173
+block <Epot> / <T> :     -17.69296  638.     drift:  0.20D-03   Tbath : 649.
+   5400   21.60    -17.69130   0.0374  632.  761.   -17.66974
+   5600   22.40    -17.69142   0.0342  633.  698.   -17.65179
+   5800   23.20    -17.69153   0.0286  634.  582.   -17.66740
+   6000   24.00    -17.69160   0.0353  634.  719.   -17.65770
+block <Epot> / <T> :     -17.69417  658.     drift:  0.49D-03   Tbath : 649.
+   6200   24.80    -17.69172   0.0362  635.  738.   -17.66394
+   6400   25.60    -17.69178   0.0256  635.  521.   -17.66451
+   6600   26.40    -17.69184   0.0381  635.  777.   -17.66338
+   6800   27.20    -17.69189   0.0300  635.  611.   -17.65481
+   7000   28.00    -17.69197   0.0316  636.  643.   -17.66028
+block <Epot> / <T> :     -17.69415  649.     drift:  0.11D-05   Tbath : 649.
+   7200   28.80    -17.69199   0.0294  636.  600.   -17.65660
+   7400   29.60    -17.69199   0.0278  636.  565.   -17.67452
+   7600   30.40    -17.69204   0.0337  637.  687.   -17.65976
+   7800   31.20    -17.69201   0.0388  636.  790.   -17.64628
+block <Epot> / <T> :     -17.69214  638.     drift:  0.25D-03   Tbath : 649.
+   8000   32.00    -17.69198   0.0315  636.  642.   -17.66238
+   8200   32.80    -17.69198   0.0353  637.  718.   -17.66292
+   8400   33.60    -17.69201   0.0262  638.  534.   -17.66558
+   8600   34.40    -17.69206   0.0285  638.  580.   -17.65521
+block <Epot> / <T> :     -17.69292  656.     drift:  0.58D-03   Tbath : 649.
+   8800   35.20    -17.69208   0.0375  638.  763.   -17.65688
+   9000   36.00    -17.69210   0.0335  638.  682.   -17.65816
+   9200   36.80    -17.69210   0.0373  639.  760.   -17.65692
+   9400   37.60    -17.69211   0.0383  639.  781.   -17.65413
+   9600   38.40    -17.69213   0.0221  639.  451.   -17.66297
+block <Epot> / <T> :     -17.69270  648.     drift:  0.36D-03   Tbath : 649.
+   9800   39.20    -17.69216   0.0406  639.  827.   -17.65513
+  10000   40.00    -17.69222   0.0303  640.  618.   -17.67512
+  10200   40.80    -17.69225   0.0344  640.  701.   -17.66071
+  10400   41.60    -17.69228   0.0413  640.  841.   -17.65529
+block <Epot> / <T> :     -17.69385  647.     drift: -0.49D-03   Tbath : 649.
+  10600   42.40    -17.69229   0.0285  640.  581.   -17.67336
+  10800   43.20    -17.69231   0.0277  640.  564.   -17.65247
+  11000   44.00    -17.69232   0.0252  640.  514.   -17.66552
+  11200   44.80    -17.69234   0.0263  641.  536.   -17.66549
+block <Epot> / <T> :     -17.69359  653.     drift: -0.32D-03   Tbath : 649.
+  11400   45.60    -17.69239   0.0345  641.  703.   -17.66142
+  11600   46.40    -17.69241   0.0289  641.  588.   -17.66624
+  11800   47.20    -17.69244   0.0403  641.  820.   -17.65547
+  12000   48.00    -17.69246   0.0259  641.  527.   -17.65943
+  12200   48.80    -17.69250   0.0418  641.  851.   -17.65814
+block <Epot> / <T> :     -17.69396  645.     drift: -0.35D-03   Tbath : 649.
+  12400   49.60    -17.69250   0.0360  641.  734.   -17.65280
+ average properties 
+ Epot               :  -17.6925068159232     
+ Epot (accurate SCC):  -17.6938080079874     
+ Ekin               :  3.147713255194811E-002
+ Etot               :  -17.6610296833712     
+ T                  :   641.269714272888     
+ normal exit of md()
+ 
+ ===========================
+ annealing step            3
+ ===========================
+ 
+ MD time /ps        :   50.00
+ dt /fs             :    4.00
+ SCC accuracy       :    1.00
+ temperature /K     : 1000.00
+ max steps          : 12500
+ block length (av.) :   875
+ dumpstep(trj) /fs  :   50.00    12
+ dumpstep(coords)/fs: 1000.00   250
+ H atoms mass (amu) :     4
+ # deg. of freedom  :    31
+ SHAKE on. # bonds  :          14  all: T
+ Berendsen THERMOSTAT on
+ RESTART
+         time (ps)    <Epot>      Ekin   <T>   T     Etot
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+      0    0.00      0.00000   0.0411    0.    0.   -17.66006
+est. speed in wall clock h for 100 ps :  0.06
+    200    0.80    -17.60150   0.0426  774.  868.   -17.63628
+    400    1.60    -17.64128   0.0404  829.  823.   -17.64369
+    600    2.40    -17.65452   0.0569  878. 1159.   -17.62694
+    800    3.20    -17.66080   0.0476  905.  970.   -17.62549
+block <Epot> / <T> :     -17.68238  909.     drift:  0.99D+02   Tbath :1000.
+   1000    4.00    -17.66390   0.0410  916.  836.   -17.61096
+   1200    4.80    -17.66569   0.0455  925.  927.   -17.63235
+   1400    5.60    -17.66721   0.0410  938.  834.   -17.61675
+   1600    6.40    -17.66870   0.0585  950. 1191.   -17.62840
+block <Epot> / <T> :     -17.67655  995.     drift:  0.99D+02   Tbath :1000.
+   1800    7.20    -17.66959   0.0560  953. 1142.   -17.62711
+   2000    8.00    -17.67026   0.0502  957. 1023.   -17.62818
+   2200    8.80    -17.67082   0.0401  961.  818.   -17.63284
+   2400    9.60    -17.67121   0.0540  963. 1101.   -17.63272
+   2600   10.40    -17.67160   0.0556  966. 1132.   -17.62531
+block <Epot> / <T> :     -17.67615  995.     drift:  0.99D+02   Tbath :1000.
+   2800   11.20    -17.67203   0.0324  970.  660.   -17.63424
+   3000   12.00    -17.67237   0.0522  972. 1064.   -17.62409
+   3200   12.80    -17.67276   0.0563  974. 1146.   -17.62263
+   3400   13.60    -17.67330   0.0535  978. 1091.   -17.65043
+block <Epot> / <T> :     -17.67930 1015.     drift:  0.96D-03   Tbath :1000.
+   3600   14.40    -17.67370   0.0418  978.  851.   -17.62692
+   3800   15.20    -17.67394   0.0461  978.  939.   -17.61751
+   4000   16.00    -17.67416   0.0475  979.  967.   -17.62895
+   4200   16.80    -17.67443   0.0453  981.  922.   -17.62368
+block <Epot> / <T> :     -17.67914  992.     drift: -0.11D-02   Tbath :1000.
+   4400   17.60    -17.67468   0.0532  981. 1084.   -17.64141
+   4600   18.40    -17.67484   0.0660  981. 1345.   -17.61181
+   4800   19.20    -17.67491   0.0505  982. 1028.   -17.63498
+   5000   20.00    -17.67504   0.0468  983.  953.   -17.63844
+   5200   20.80    -17.67534   0.0616  985. 1255.   -17.62350
+block <Epot> / <T> :     -17.67932 1010.     drift: -0.94D-03   Tbath :1000.
+   5400   21.60    -17.67576   0.0472  987.  962.   -17.63833
+   5600   22.40    -17.67591   0.0385  985.  785.   -17.65100
+   5800   23.20    -17.67603   0.0687  985. 1400.   -17.62256
+   6000   24.00    -17.67607   0.0398  985.  811.   -17.62970
+block <Epot> / <T> :     -17.68067  989.     drift: -0.43D-03   Tbath :1000.
+   6200   24.80    -17.67624   0.0481  987.  980.   -17.61930
+   6400   25.60    -17.67632   0.0560  987. 1142.   -17.61982
+   6600   26.40    -17.67644   0.0552  987. 1125.   -17.62057
+   6800   27.20    -17.67647   0.0552  987. 1125.   -17.63761
+   7000   28.00    -17.67649   0.0352  987.  718.   -17.61739
+block <Epot> / <T> :     -17.67863  993.     drift:  0.18D-04   Tbath :1000.
+   7200   28.80    -17.67661   0.0422  988.  860.   -17.62804
+   7400   29.60    -17.67662   0.0457  988.  932.   -17.63286
+   7600   30.40    -17.67667   0.0562  988. 1146.   -17.62573
+   7800   31.20    -17.67678   0.0400  989.  816.   -17.63252
+block <Epot> / <T> :     -17.67949 1007.     drift:  0.15D-03   Tbath :1000.
+   8000   32.00    -17.67691   0.0509  990. 1036.   -17.62205
+   8200   32.80    -17.67712   0.0562  991. 1144.   -17.62830
+   8400   33.60    -17.67728   0.0475  991.  967.   -17.62848
+   8600   34.40    -17.67735   0.0458  990.  933.   -17.64286
+block <Epot> / <T> :     -17.68234  995.     drift: -0.59D-03   Tbath :1000.
+   8800   35.20    -17.67737   0.0351  990.  715.   -17.63984
+   9000   36.00    -17.67733   0.0597  989. 1215.   -17.61155
+   9200   36.80    -17.67729   0.0527  990. 1073.   -17.60747
+   9400   37.60    -17.67732   0.0440  990.  896.   -17.64013
+   9600   38.40    -17.67736   0.0420  991.  855.   -17.62223
+block <Epot> / <T> :     -17.67722  997.     drift:  0.14D-03   Tbath :1000.
+   9800   39.20    -17.67741   0.0604  991. 1230.   -17.62729
+  10000   40.00    -17.67745   0.0534  991. 1088.   -17.63240
+  10200   40.80    -17.67747   0.0483  991.  984.   -17.61972
+  10400   41.60    -17.67750   0.0561  991. 1142.   -17.61414
+block <Epot> / <T> :     -17.67923 1001.     drift:  0.59D-03   Tbath :1000.
+  10600   42.40    -17.67751   0.0594  991. 1209.   -17.62696
+  10800   43.20    -17.67752   0.0305  991.  621.   -17.63962
+  11000   44.00    -17.67752   0.0495  992. 1008.   -17.62270
+  11200   44.80    -17.67758   0.0485  992.  987.   -17.61584
+block <Epot> / <T> :     -17.67833  994.     drift:  0.10D-02   Tbath :1000.
+  11400   45.60    -17.67758   0.0471  992.  960.   -17.63257
+  11600   46.40    -17.67755   0.0396  991.  808.   -17.63239
+  11800   47.20    -17.67751   0.0447  992.  910.   -17.63450
+  12000   48.00    -17.67748   0.0371  992.  755.   -17.63213
+  12200   48.80    -17.67745   0.0466  992.  949.   -17.63646
+block <Epot> / <T> :     -17.67587  996.     drift:  0.50D-03   Tbath :1000.
+  12400   49.60    -17.67745   0.0577  992. 1176.   -17.61630
+ average properties 
+ Epot               :  -17.6774566634261     
+ Epot (accurate SCC):  -17.6792390796697     
+ Ekin               :  4.870504525985688E-002
+ Etot               :  -17.6287516181663     
+ T                  :   992.246368244984     
+ normal exit of md()
+ 
+ number of start conformations from MD:         147
+ 
+ optimization blocks            1
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7255904
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7255238
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7255490
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7255855
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7271157
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         18 cycles
+energy :    -17.7269577
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7271090
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7255278
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7270776
+ optimization blocks           10
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7271241
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7271123
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7270573
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7270808
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7269672
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         24 cycles
+energy :    -17.7270699
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7270918
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7269294
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         20 cycles
+energy :    -17.7260363
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         20 cycles
+energy :    -17.7272822
+ optimization blocks           20
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7273303
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263009
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         27 cycles
+energy :    -17.7263133
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         18 cycles
+energy :    -17.7272884
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7270686
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7270604
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7271480
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7271459
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7271527
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7254676
+ optimization blocks           30
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7270626
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7263800
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7264275
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7263894
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7262583
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263481
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7264220
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7261084
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263112
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         18 cycles
+energy :    -17.7264312
+ optimization blocks           40
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7263913
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7264160
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263051
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7263259
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7247372
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7263027
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7263801
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7263866
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7263497
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7262829
+ optimization blocks           50
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7262800
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7264204
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7247349
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7263451
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263197
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7255595
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7256156
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7255988
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7270775
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7255554
+ optimization blocks           60
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         15 cycles
+energy :    -17.7263248
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7262484
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7265506
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         21 cycles
+energy :    -17.7247301
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7271143
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7262223
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7262727
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7264480
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7254890
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7246178
+ optimization blocks           70
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7263211
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7234996
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         23 cycles
+energy :    -17.7261334
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7272828
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7257380
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7262249
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         28 cycles
+energy :    -17.7251621
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         38 cycles
+energy :    -17.7256630
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7239921
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7251985
+ optimization blocks           80
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         26 cycles
+energy :    -17.7246513
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7252377
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7252617
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         18 cycles
+energy :    -17.7246533
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7243774
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7251595
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7263630
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         23 cycles
+energy :    -17.7263838
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         22 cycles
+energy :    -17.7271243
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7264310
+ optimization blocks           90
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7264302
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7263785
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7241696
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7264082
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         21 cycles
+energy :    -17.7272806
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263255
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7262749
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         23 cycles
+energy :    -17.7257321
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         26 cycles
+energy :    -17.7263167
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         27 cycles
+energy :    -17.7265467
+ optimization blocks          100
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         31 cycles
+energy :    -17.7242982
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         18 cycles
+energy :    -17.7265552
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7245817
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7251576
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7251286
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7243318
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         27 cycles
+energy :    -17.7242560
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         17 cycles
+energy :    -17.7272373
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         26 cycles
+energy :    -17.7257456
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         25 cycles
+energy :    -17.7273213
+ optimization blocks          110
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         28 cycles
+energy :    -17.7262398
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7272407
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         26 cycles
+energy :    -17.7270944
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         21 cycles
+energy :    -17.7262789
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7261861
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7257312
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7269396
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         20 cycles
+energy :    -17.7256939
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7251147
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7246868
+ optimization blocks          120
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7261947
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7264615
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7270943
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          8 cycles
+energy :    -17.7236228
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7247048
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7263921
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7263336
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         14 cycles
+energy :    -17.7270080
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         25 cycles
+energy :    -17.7273367
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         21 cycles
+energy :    -17.7273377
+ optimization blocks          130
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         22 cycles
+energy :    -17.7252393
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          7 cycles
+energy :    -17.7247809
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7263884
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         21 cycles
+energy :    -17.7265489
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7244904
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7257359
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7270313
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7270747
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         12 cycles
+energy :    -17.7272764
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         16 cycles
+energy :    -17.7257050
+ optimization blocks          140
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         34 cycles
+energy :    -17.7261199
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         22 cycles
+energy :    -17.7265469
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7262801
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         27 cycles
+energy :    -17.7264626
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         19 cycles
+energy :    -17.7253909
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263015
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7272861
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         29 cycles
+energy :    -17.7271341
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          9 cycles
+energy :    -17.7255781
+energy window  (kcal) :  40.000
+highest (kcal)        :   2.374
+remaining %/#         :  12.162    18
+ optimization blocks            1
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7273587
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7271531
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7265917
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7265827
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          7 cycles
+energy :    -17.7263557
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7262196
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7263573
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7257669
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          4 cycles
+energy :    -17.7256131
+ optimization blocks           10
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7252867
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7252860
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7248493
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7246840
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         11 cycles
+energy :    -17.7246853
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         10 cycles
+energy :    -17.7243481
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         13 cycles
+energy :    -17.7243426
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in         22 cycles
+energy :    -17.7263521
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7235329
+energy window  (kcal) :  20.000
+highest (kcal)        :   2.401
+remaining %/#         :  66.667    12
+ optimization blocks            1
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          2 cycles
+energy :    -17.7273588
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7271531
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          4 cycles
+energy :    -17.7265960
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7263558
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7262196
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          2 cycles
+energy :    -17.7257671
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7256131
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          2 cycles
+energy :    -17.7252875
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          6 cycles
+energy :    -17.7248596
+ optimization blocks           10
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7246840
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          1 cycles
+energy :    -17.7243481
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ancopt converged in          2 cycles
+energy :    -17.7235332
+energy window  (kcal) :  20.000
+highest (kcal)        :   2.401
+remaining %/#         : 100.000    12
+ 
+ ===================================================
+ ============= ordered conformer list ==============
+ ===================================================
+ written to <scoord.nnn> and xtbsiman.log
+   1 dE (kcal):   0.000  MD run nr.:  1
+   2 dE (kcal):   0.129  MD run nr.:  1
+   3 dE (kcal):   0.479  MD run nr.:  2
+   4 dE (kcal):   0.629  MD run nr.:  1
+   5 dE (kcal):   0.715  MD run nr.:  2
+   6 dE (kcal):   0.999  MD run nr.:  2
+   7 dE (kcal):   1.095  MD run nr.:  1
+   8 dE (kcal):   1.300  MD run nr.:  2
+   9 dE (kcal):   1.568  MD run nr.:  1
+  10 dE (kcal):   1.679  MD run nr.:  2
+  11 dE (kcal):   1.889  MD run nr.:  2
+  12 dE (kcal):   2.401  MD run nr.:  2
+dE of input structure w.r.t. lowest found (kcal):   1.116
+ 
+speedup  1.73
+cpu  time for all    6 m 36.7 s
+wall time for all    3 m 48.8 s

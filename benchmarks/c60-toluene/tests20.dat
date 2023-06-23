@@ -1,0 +1,56 @@
+dipole_file =  calc.log
+dipole_file_solvent =  toluene.log
+dipole_solute =  0.00 0.00 0.00
+tot_dipole_solute =  0.00
+dipole_solvent =  0.53 0.00 0.06
+tot_dipole_solvent =  0.54
+AABB_Solute =  621.7432458408244
+MBB_Solute =  621.7432458408246
+AABB_Solvent =  227.97336790031915
+MBB_Solvent =  227.97336790031915
+fac_N =  2.727262625311043
+tot_dipole_solvent =  0.536
+RM,RS =  2.873775956096273 2.873775956096273
+S_r_spt2, S_r_gas2 =  0.0011037210854357774 0.001207006314701943
+G_c terms =  0.0781962307867383 0.244004487109358 0.244004487109358 0.029769094864750423
+alpha(omega)/K =  0.001910
+alpha(user)/K =  0.00108
+y0, y, R, RS terms =  0.5633319955505762 0.0752170621461697 1.7104173253318202 2.873775956096273
+G_c terms =  0.0781962307867383 0.41734950221055067 0.7138418192995367 0.08709030349769722
+G_c terms =  0.0781962307867383 0.41734950221055067 0.7138418192995367 0.08709030349769722
+term Gc =  2.5763041363596217
+term2 =  -0.9552459257402679
+term3 =  0.0
+y0, y, R, RS terms =  0.5633319955505762 0.0752170621461697 1.0 2.873775956096273
+G_c terms =  0.0781962307867383 0.244004487109358 0.244004487109358 0.029769094864750423
+G_c terms =  0.0781962307867383 0.244004487109358 0.244004487109358 0.029769094864750423
+term Gc =  1.1842940834332178
+term2 =  -0.4308979672456018
+term3 =  0.0
+omega_SPT =  0.2941
+omega(user) =  0.263
+Calculation time (s) =  0.072
+ ------ Areas and Volumes in Angstrom ------ 
+Free volume per solvent particle  =  77.06094
+area_solute  =  1912.34322
+vol_solute =  497.45476
+area_solvent =  361.84210
+vol_solvent =  99.41395
+ ------ Enthalpies in kcal/mol ------ 
+H t r v sol =  0.91 0.89 242.80 0.00
+H gas sol (Total) =  244.60 244.60
+ ------ Entropies in cal/mol-K ------ 
+S_gas t r v =  45.63 31.66 56.76
+S_gas (Total) =  134.05
+S_sol t r v cav (FreeRot) =  39.42 31.66 56.76 -7.65
+S_sol (Total-FreeRot) =  120.19
+S_sol t r v cav (Mech) =  39.42 24.98 56.76 -1.15
+S_sol (Total-Mech) =  120.01
+S_sol t r v cav (MechElec) =  39.42 24.98 56.76 -1.15
+S_sol (Total-MechElec) =  120.01
+S_sol t r v cav (SPT) =  39.42 24.98 56.76 -1.62
+S_sol (Total-SPT) =  119.54
+R*ln(c_gas/c_sol) =  -6.38
+Solvation Entropies: 
+FreeRot MechElec SPT
+-20.24 -20.42 -20.89

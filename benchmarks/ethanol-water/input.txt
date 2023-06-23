@@ -1,0 +1,39 @@
+
+solvent = water.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+#concentration = 0.19
+#concentration = 190
+#concentration = 7.73
+concentration = 1
+symmetry = 1
+omega = 0.344 #water
+#omega = 0.089 #ethylene
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+
+area_solute =  192.09069463690045
+vol_solute =  53.44875424268997
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023
+sasa_solvent =  49.699488295568564
+sasa_solute =  307.6165248891293
+
+dipole_solute = 1.724
+dipole_solvent = 2.217
+epsilon_r = 78.54
+rho_solvent = 1.0
+alpha = 207E-6
+sigma_0 = 72.8E-3
+dsigma_dt = -0.1514E-3
+T_c = 647
+dipole_file = calc.log
+dipole_file_solvent = water.log
+MBB_Solute =  185.13888305270467
+MBB_Solvent =  71.07776112016799
+MBB_Solute =  185.13888305270467
+MBB_Solvent =  71.07776112016799

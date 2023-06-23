@@ -1,0 +1,17 @@
+
+solvent = water.xyz
+solute = ethylene.xyz
+temperature = 298.15
+pressure = 1.0 # pressure in bar
+concentration = 4.8E-6
+symmetry = 4
+omega = 0.344 #water
+#omega = 0.089 #ethylene
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023

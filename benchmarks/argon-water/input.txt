@@ -1,0 +1,46 @@
+
+solvent = water.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+#concentration = 1.4E-6
+#concentration = 1.4E-3
+#concentration = 5.7E-5
+concentration = 1
+symmetry = 1
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = False # if the solute molecule is linear
+
+omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.001 # Argon
+
+area_solute =  43.742141562879986
+vol_solute =  27.942493638655993
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023
+sasa_solvent =  49.650340896390425
+sasa_solute =  64.82572812288
+
+
+use_sasa = True
+
+dipole_solute = 0.0
+dipole_solvent = 2.217
+epsilon_r = 78.54
+rho_solvent = 1.0
+alpha = 207E-6
+sigma_0 = 72.8E-3
+dsigma_dt = -0.1514E-3
+T_c = 647
+dipole_file = calc.log
+dipole_file_solvent = water.log
+MBB_Solute =  84.8256
+MBB_Solvent =  71.07776112016799
+MBB_Solute =  84.8256
+MBB_Solvent =  71.07776112016799

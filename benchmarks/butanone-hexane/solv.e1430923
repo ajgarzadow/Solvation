@@ -1,0 +1,11 @@
+forrtl: severe (59): list-directed I/O syntax error, unit 142, file /home/ua25450/oneqbit/solution-entropy/benchmarks/butanone-hexane/calc.xyz
+Image              PC                Routine            Line        Source             
+xtb                0000000002362323  Unknown               Unknown  Unknown
+xtb                0000000002394D1C  Unknown               Unknown  Unknown
+xtb                0000000002392F06  Unknown               Unknown  Unknown
+xtb                000000000056FCA2  rd0_                      219  rdcoord2.f
+xtb                00000000004047DF  MAIN__.R                  422  main.f
+xtb                00000000004020EE  Unknown               Unknown  Unknown
+xtb                0000000002538B5C  Unknown               Unknown  Unknown
+xtb                0000000000401FD7  Unknown               Unknown  Unknown
+cp: cannot stat ‘xtbopt.xyz’: No such file or directory

@@ -1,0 +1,38 @@
+
+solvent = calc.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 13.36
+symmetry = 1
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+#omega = 0.644 # ethanol
+omega = 0.623 # propanol
+
+area_solute =  255.9251381212991
+vol_solute =  70.24810281557475
+area_solvent =  255.9251381212991
+vol_solvent =  70.24810281557475
+
+dipole_solute = 1.731
+dipole_solvent = 1.731
+epsilon_r = 20.1
+
+rho_solvent = 0.803
+alpha = 0.00078824
+dipole_file = calc.log
+dipole_file_solvent = calc.log
+MBB_Solute =  207.48224352056613
+MBB_Solvent =  207.48224352056613
+MBB_Solute =  207.48224352056613
+MBB_Solvent =  207.48224352056613

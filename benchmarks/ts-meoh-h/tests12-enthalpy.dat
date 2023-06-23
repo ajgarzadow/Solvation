@@ -1,0 +1,32 @@
+alpha(omega)/K =  0.000254
+alpha(user)/K =  0.000207
+omega_SPT =  0.3509
+omega(user) =  0.344
+Calculation time (s) =  0.020
+Solvent kissing No. =  10.17
+ ------ Areas and Volumes in Angstrom ------ 
+Free volume per solvent particle  =  14.67334
+area_solute  =  43.74214
+vol_solute =  27.94249
+area_solvent =  42.04307
+vol_solvent =  15.24127
+ ------ Enthalpies in kcal/mol ------ 
+H t r v sol =  0.89 0.00 0.00 -3.77
+H gas sol (Total) =  0.89 -2.88
+ ------ Entropies in cal/mol-K ------ 
+S_gas t r v =  37.01 0.00 0.00
+S_gas (Total) =  37.01
+S_sol t r v cav (FreeRot) =  26.04 0.00 0.00 -4.37
+S_sol (Total-FreeRot) =  21.67
+S_sol t r v cav (Mech) =  26.04 0.00 0.00 -4.37
+S_sol (Total-Mech) =  21.67
+S_sol t r v cav (MechElec) =  26.04 0.00 0.00 -4.37
+S_sol (Total-MechElec) =  21.67
+S_sol t r v cav (SPT) =  26.04 0.00 0.00 -3.62
+S_sol (Total-SPT) =  22.42
+R*ln(c_gas/c_sol) =  -6.38
+Solvation Entropies: 
+FreeRot Mech MechElec SPT
+-21.72 -21.72 -21.72 -20.97
+ Delta H: 
+-3.77

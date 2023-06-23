@@ -1,0 +1,43 @@
+
+solvent = calc.xyz
+solute = calc.xyz
+temperature = 4.2
+pressure = 1 # pressure in bar
+#concentration = 1.4E-6
+#concentration = 1.4E-3
+#concentration = 5.7E-5
+concentration = 31.25
+symmetry = 1
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = False # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.001 # Argon
+#omega = -0.029 # Neon
+omega = -0.365 # Helium
+#omega = 0
+
+dipole_solute = 0.0
+dipole_solvent = 0
+epsilon_r = 1.055
+
+rho_solvent = 0.125
+dipole_file = calc.log
+dipole_file_solvent = calc.log
+
+area_solute  =  24.93572
+vol_solute =  11.50496
+area_solvent =  24.65473
+vol_solvent =  11.49670
+
+alpha = -14.9E-4
+AABB_Solute =  47.03999999999999
+MBB_Solute =  47.03999999999999
+AABB_Solvent =  47.03999999999999
+MBB_Solvent =  47.03999999999999

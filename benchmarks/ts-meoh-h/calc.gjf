@@ -1,0 +1,41 @@
+%chk=calc.chk
+%nprocshared=2
+%mem=16GB
+# opt=(modredundant,loose) freq wb97xd/6-31g(d) 5d
+scf=(maxconventionalcycles=100,xqc)
+
+comment
+
+0 2
+ C                 -4.09299202   -0.69421645    0.19473447
+ H                 -3.73633759   -1.70302646    0.19473447
+ H                 -3.73631918   -0.18981826   -0.67891703
+ H                 -5.16299202   -0.69420327    0.19473447
+ O                 -3.61631710   -0.02011420    1.36232480
+ H                 -3.93607579    0.88506766    1.36274093
+ H                 -3.45681434    0.20545078   -1.36354954
+
+B 1 3 F
+B 3 7 F
+
+--link1--
+%chk=calc.chk
+%nproc=2
+%mem=16gb
+# wb97xd 5d 6-31g* geom=check guess=read scf=xqc freq
+opt=(addredundant,readfc,loose,nofreeze,ts,noeigentest)
+
+ni1182a
+
+0 2
+
+1 3
+3 7
+
+
+
+
+
+
+
+

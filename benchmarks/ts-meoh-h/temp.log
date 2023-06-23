@@ -1,0 +1,633 @@
+ 
+        ______________________________________
+       |                                      |
+       |           ==================         |
+       |                 x T B                |
+       |           ==================         |
+       |               S. Grimme              |
+       |        Universitaet Bonn, MCTC       |
+       |         2015-18, Version 5.8.1       |
+       |      Sun May  6 11:39:08 CEST 2018   |
+       |______________________________________|
+ 
+        This code comes without any warranty
+        for non-commercial, academia use only.
+        Preliminary GFN2 test version.
+        Test license to: Dow Chemical Company
+        Cite GFN-xTB work as:
+        S. Grimme, C. Bannwarth, P. Shushkov
+        JCTC, 13 (2017) 1989-2009
+        for GFN2:
+        C. Bannwarth, S. Ehlert, S. Grimme
+        to be published.
+        sTDA-xTB:
+        S. Grimme  &  C. Bannwarth, JCP 145 (2016) 054103
+        in the mass-spec context additionally:
+        V. Asgeirsson, C.Bauer, S. Grimme, Chem. Sci. 8 (2017) 4879
+ 
+        with help from
+        P. Shushkov, G. Brandenburg, S. Dohm, J. Pisarek,
+        F. März, M. Checinski, S. Ehrlich, S. Spicher, 
+        P. Pracht, E. Caldeweyher, S. Ehlert, and C. Bannwarth.
+ 
+        usage        :
+        xtb <coord_file> [options]
+        where <coord_file> is a valid file of TM)
+        (*coord, Bohr) or xmol (*xyz, Angstroem)
+        format.
+
+        options:
+        -chrg <int>   : molecular charge
+        -uhf  <int>   : # of unpaired electrons(=2*S)
+        -nox          : skip second, extended part in sTDA-xTB
+        -pop          : do population analysis
+                      : (default for -nox)
+        -mowr <real>  : cut MO write above (def.3 Eh)
+        -molden       : write formatted molden file
+        -parx <file>  : read parameters for sTDA-xTB
+                        calc (def:~/.param_stda2.xtb)
+        -parv <file>  : read parameters for vTB part in
+                        sTDA-xTB (def: ~/.param_stda1.xtb)
+        -xtemp <real> : el. temp for xTB (def. 0 K)
+        -etemp <real> : el. temp for GFN (def. 300 K)
+        -fod          : calculate the FOD and write
+                        molden.input file with
+                        appropriate occupations
+                        for plotting. Def. T=12500 K
+ 
+        -gfn1         : use GFN-xTB
+        -gfn2         : use GFN2-xTB
+        -gfn2d3       : GFN2-xTB with D3 instead of D4
+        -grad         : GFNn-xTB gradient
+        -acc <real>   : GFNn-xTB accuracy (def. 1.0)
+        -opt [level]  : optimize at GFNn-xTB
+                      : level=crude,vloose,loose,
+                      :       tight,vtight
+        -hess         : compute Hessian at GFNn-xTB
+        -ohess        : optimize and compute Hessian
+        -omd          : optimize and do MD
+        -siman        : conformational search
+        -screen       : opt. loop over ensemble
+        -gmd          : annealed MD for GMD procedure
+        -modef        : vib mode following
+        -gbsa [string1] [string2]
+                        use GBSA implicit solvent
+                        for solvent [string1] and
+                        solvation state [string2]=
+                        reference, bar1M (default=1M)
+        additional GFN/opt/MD/siman options read from
+        $XTBHOME/.xtbrc or $set in coordinate file
+ 
+       spin and charge state information can be on:
+       <.CHRG> (charge) and <.UHF> (=nalpha-nbeta)
+       -uhf and -chrg override the file info.
+       useful machine settings:
+       setenv MKL_NUM_THREADS <NCORE_ON_YOUR_MACHINE>
+       setenv OMP_STACKSIZE 500m
+       limit stacksize unlimited
+ 
+       total energies in Eh, gaps/HL energies in eV
+       please read REVISION and HOWTO files carefully
+          54  days left until this code expires
+ =============================
+  # OMP threads =           2
+ =============================
+ 
+ xtbhome directory:/home/ua25450/dftb/
+ 
+ argument            1 :-ohess
+ 
+ name of molecule           :
+ comment line               :
+ number of atoms            :     7
+ number of electrons        :    15
+ charge                     :  0
+ spin                       : 0.5
+ first test random number   :  0.7495
+ 
+ 
+ -----------------------------------------
+  G F N (Geometry, Frequency, Non-covalent)
+        parametrization, gfnver=           3
+     D4 dispersion model
+ /home/ua25450/dftb/.param_gfn2.xtb
+ -----------------------------------------
+      method parameters     
+ k(s)        :  1.8500
+ k(p)        :  2.2300
+ k(d)        :  2.2300
+ k(f)        :  2.0000
+ kEN (H0ij)  : -2.0000
+ D3 a1       :  0.5200
+ D3 a2       :  5.0000
+ D3 s8       :  2.7000
+ D3atm       :  5.0000
+ alphaj      :  2.0000
+ 
+     -------------------------
+     ! NO SOLVENT MODEL USED !
+     -------------------------
+ 
+ doing EN charges ...
+ sum q : -0.2220446D-15
+ point charge moment (au)
+     X       Y       Z   
+  -0.1954   0.0253  -0.1778  total (Debye):    0.675
+ 
+            Z     q(EN)     CN     RAES       Cart. coordinates
+     1  C   4.0   -0.03    3.76    3.29    -7.78076    -1.32465     0.58993
+     2  H   1.0    0.04    0.99    1.43    -7.04962    -3.25033     0.52998
+     3  H   1.0    0.02    0.91    1.42    -7.00585    -0.31902    -1.49816
+     4  H   1.0    0.04    0.98    1.43    -9.84862    -1.26181     0.43912
+     5  O   6.0   -0.18    1.98    1.82    -6.78067    -0.08703     2.65249
+     6  H   1.0    0.11    1.02    1.43    -7.56280     1.55267     2.79063
+     7  H   1.0    0.00    0.14    1.40    -6.38861     0.51224    -3.11008
+ 
+  Z AO/shell   Hii/eV     exponent
+  1     Wed Apr 25 08:07:45 CEST 2018   EN: 2.200 GM2: 0.406  GM3: 0.0800  RAES: 1.40
+     1s    -10.707211    1.230000
+  6     Wed Apr 25 08:07:45 CEST 2018   EN: 2.550 GM2: 0.538  GM3: 0.1500  RAES: 3.00
+     2s    -13.970922    2.096432
+     2p    -10.063292    1.800000
+  8     Wed Apr 25 08:07:45 CEST 2018   EN: 3.440 GM2: 0.452  GM3:-0.0517  RAES: 1.80
+     2s    -20.229985    2.439742
+     2p    -15.503117    2.137023
+ 
+Refinement of some symmetry elements was terminated before convergence was reached.
+Some symmetry elements may remain unidentified.
+Molecule has no symmetry elements
+It seems to be the C1 point group
+c1  symmetry found (for desy threshold:  0.10E+00) used in thermo
+ no old-style atom pair restraing (fixing) potential
+ 
+ molecular fragmentation (1/2 indicates fragments):
+1111112
+# atoms in fragment 1/2:     6     1
+ fragment masses (1/2) :       32.04        1.01
+CMA distance (Bohr)    :   4.949
+constraining FC (au)   :  0.0500
+ 
+             =======================================
+             |                                     |
+             |        S C C  calculation           |
+             |                                     |
+             =======================================
+ #proc     :            2
+ Ncao      :           13
+ Nao       :           13
+ Nel       :           15
+ T(el)     :   300.0
+ intcut    :    25.0
+ scfconv   :  0.100E-05
+   qconv   :  0.100E-03
+ intneglect:  0.100E-07
+ broydamp  :      0.400
+ Nshell    :            9
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1     -8.6962238 -0.869622E+01  0.847E-01   10.63       0.0  T
+   2     -8.6967464 -0.522609E-03  0.452E-01   10.56       1.0  T
+   3     -8.6968078 -0.614372E-04  0.116E-01   10.56       1.0  T
+   4     -8.6968185 -0.107369E-04  0.437E-02   10.57       1.0  T
+   5     -8.6968192 -0.666025E-06  0.137E-02   10.57       2.7  T
+   6     -8.6968193 -0.747855E-07  0.278E-03   10.57      13.6  T
+   7     -8.6968193 -0.446935E-08  0.569E-04   10.57      66.5  T
+   8     -8.6968193 -0.151784E-09  0.192E-04   10.57     196.7  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+
+          eigenvalues
+ #    :           1          2          3          4          5          6          7          8
+ occ. :        2.000      2.000      2.000      2.000      2.000      2.000      2.000      1.000
+ eps  :       -19.278    -17.095    -15.816    -14.551    -14.447    -12.714    -12.117     -8.424
+ #    :           9         10         11         12         13
+ occ. :        0.000      0.000      0.000      0.000      0.000
+ eps  :         2.151      3.543      4.705      6.231      7.117
+ 
+
+   #   Z            q   n(s)   n(p)   n(d)      C6AA      α(0)    relVol
+   1   6 C      0.028  1.059  2.913  0.000    22.871     7.290     0.590
+   2   1 H      0.057  0.943  0.000  0.000     2.228     2.334     0.462
+   3   1 H      0.086  0.914  0.000  0.000     1.911     2.166     0.429
+   4   1 H      0.027  0.973  0.000  0.000     2.627     2.535     0.501
+   5   8 O     -0.388  1.705  4.683  0.000    21.091     6.213     1.196
+   6   1 H      0.298  0.702  0.000  0.000     0.665     1.280     0.253
+   7   1 H     -0.109  1.109  0.000  0.000    14.366     6.928     1.371
+
+ Mol. C6AA /au*bohr^6 :        336.969814
+ Mol. C8AA /au*bohr^6 :       6010.441854
+ Mol. a(0) /au        :         28.745949
+
+ 
+ Wiberg/Mayer (AO) data. WBOs > 0.1 written file <wbo>
+ largest (>0.05) Wiberg bond orders for each atom
+           total WBO             WBO to atom ...
+     1  C   3.521    O    5 1.056    H    2 0.973    H    4 0.969    H    3 0.514
+     2  H   0.991    C    1 0.973
+     3  H   0.994    C    1 0.514    H    7 0.470
+     4  H   0.989    C    1 0.969
+     5  O   2.002    C    1 1.056    H    6 0.896
+     6  H   0.910    O    5 0.896
+     7  H   0.510    H    3 0.470
+ (R)spin-density population
+ 
+ Mulliken population n(s)   n(p)   n(d)
+     1 C   0.4055   0.043  0.363  0.000
+     2 H   0.0056   0.006  0.000  0.000
+     3 H  -0.0015  -0.001  0.000  0.000
+     4 H   0.0106   0.011  0.000  0.000
+     5 O   0.1003   0.000  0.100  0.000
+     6 H   0.0012   0.001  0.000  0.000
+     7 H   0.4781   0.478  0.000  0.000
+ 
+molecular dipole:
+                 x           y           z       tot (Debye)
+ q only:       -0.422       0.158       0.072
+   full:        0.662       0.266       0.054       1.684
+molecular quadrupole (traceless):
+                xx          xy          yy          xz          yz          zz
+ q only:        6.099      -1.883      -1.083      -1.556       2.193      -5.016
+  q+dip:        9.080      -3.384      -1.787      -2.505       2.014      -7.292
+   full:        8.872      -3.282      -1.737      -2.247       2.414      -7.135
+ SCC converged in            8  cycles
+ 
+SCC energy    :      -8.6968193
+rep           :       0.0708278
+ES            :       0.0202244
+AES           :       0.0029536
+AXC           :       0.0014534
+disp          :      -0.0018363
+XB            :       0.0000000
+fix           :       0.0000000
+total E       :      -8.6259912
+atomizationE  :       1.2699080      796.88
+(atE without considerung molecular charge,
+ total energy contains solvation terms)
+H-L gap (eV)  :         10.5742
+ 
+             =======================================
+             |                                     |
+             |    Approximate Normal Coordinate    |
+             |   Rational Function Optimization    |
+             |                                     |
+             =======================================
+Ref. for RF algo: F.Eckert, P.Pulay, H.-J.Werner
+                  J.Comput.Chem. 18 (1997) 1473.
+ANC idea implemented by S. Grimme in the 2000ers (unpublished)
+restraining potential by S. Ehrlich.
+dumping coords to <xtbopt.coord> and <xtbopt.log
+ optlevel               1
+ Maxcycle             200
+ Maxmicro              20
+ Econv         1.000000000000000E-006
+ Gconv         8.000000000000000E-004
+ Maxdispl       1.00000000000000     
+ Hlow          1.000000000000000E-002
+ S6             20.0000000000000     
+ Nvar               15
+
+generating ANC from read Hessian ...
+ Shifting diagonal of input Hessian by   5.848122386321561E-003
+ Lowest  eigenvalues of input Hessian
+   -0.000000   -0.000000    0.000000    0.000000    0.000000    0.000000
+    0.010000    0.014479    0.020576    0.029446    0.055214    0.089568
+    0.091846    0.116364    0.126820    0.180492    0.274522    0.527355
+ Highest eigenvalues
+    0.180492    0.274522    0.527355    0.690661    0.776661    0.966021
+ 
+cpu  time for ANC gen    0.01 s
+wall time for ANC gen    0.01 s
+................................................................................
+.............................. CYCLE    1 ......................................
+................................................................................
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+   1     -8.6968193 -0.869682E+01  0.395E-05   10.57       0.0  T
+   2     -8.6968193 -0.291323E-12  0.235E-05   10.57    1606.7  T
+   3     -8.6968193 -0.140332E-12  0.344E-06   10.57   10977.6  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.62599117  G :  0.024281    pred/act E change:  0.000D+00 -0.150D-09
+Maxdispl :   0.4997   ||displ|| :   0.5037   Lambda : -0.106D-01
+Largest |displ|/coords:  0.4997 (   4)  0.0455 (   8)  0.0217 (   5)
+................................................................................
+.............................. CYCLE    2 ......................................
+................................................................................
+   1     -8.6951082 -0.869511E+01  0.510E-01   10.98       0.0  T
+   2     -8.6953953 -0.287125E-03  0.284E-01   10.98       1.0  T
+   3     -8.6954092 -0.139351E-04  0.973E-02   11.00       1.0  T
+   4     -8.6954188 -0.955244E-05  0.212E-02   10.98       1.8  T
+   5     -8.6954191 -0.326301E-06  0.795E-03   10.97       4.8  T
+   6     -8.6954191 -0.243400E-07  0.172E-03   10.97      22.0  T
+   7     -8.6954191 -0.178643E-08  0.282E-04   10.97     133.9  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.62900477  G :  0.023129    pred/act E change:  0.000D+00 -0.301D-02
+Maxdispl :   0.0567   ||displ|| :   0.0793   Lambda : -0.139D-02
+Largest |displ|/coords:  0.0567 (  11)  0.0348 (   1)  0.0241 (  12)
+................................................................................
+.............................. CYCLE    3 ......................................
+................................................................................
+   1     -8.6980702 -0.869807E+01  0.165E-01   10.93       0.0  T
+   2     -8.6981442 -0.739908E-04  0.801E-02   11.00       1.0  T
+   3     -8.6981473 -0.308515E-05  0.455E-02   11.00       1.0  T
+   4     -8.6981477 -0.434431E-06  0.136E-02   11.00       2.8  T
+   5     -8.6981479 -0.151792E-06  0.484E-03   10.99       7.8  T
+   6     -8.6981479 -0.851337E-08  0.720E-04   10.99      52.5  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.63002099  G :  0.009547    pred/act E change: -0.665D-02 -0.102D-02
+Maxdispl :   0.0369   ||displ|| :   0.0641   Lambda : -0.432D-03
+Largest |displ|/coords:  0.0369 (   1)  0.0361 (  11)  0.0297 (   8)
+................................................................................
+.............................. CYCLE    4 ......................................
+................................................................................
+   1     -8.7000774 -0.870008E+01  0.109E-01   11.00       0.0  T
+   2     -8.7001075 -0.300954E-04  0.545E-02   11.04       1.0  T
+   3     -8.7001089 -0.142180E-05  0.309E-02   11.04       1.2  T
+   4     -8.7001091 -0.215255E-06  0.901E-03   11.04       4.2  T
+   5     -8.7001092 -0.571666E-07  0.312E-03   11.04      12.1  T
+   6     -8.7001092 -0.411475E-08  0.603E-04   11.04      62.7  T
+   7     -8.7001092 -0.162872E-09  0.109E-04   11.04     346.3  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.63014786  G :  0.004671    pred/act E change: -0.701D-03 -0.127D-03
+Maxdispl :   0.0272   ||displ|| :   0.0330   Lambda : -0.103D-03
+Largest |displ|/coords:  0.0272 (   4)  0.0124 (  11)  0.0116 (   8)
+................................................................................
+.............................. CYCLE    5 ......................................
+................................................................................
+   1     -8.6993553 -0.869936E+01  0.575E-02   11.03       0.0  T
+   2     -8.6993640 -0.872635E-05  0.241E-02   11.01       1.6  T
+   3     -8.6993643 -0.304550E-06  0.132E-02   11.01       2.9  T
+   4     -8.6993644 -0.420033E-07  0.392E-03   11.01       9.7  T
+   5     -8.6993644 -0.109664E-07  0.137E-03   11.01      27.7  T
+   6     -8.6993644 -0.721824E-09  0.242E-04   11.01     156.4  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.63019931  G :  0.000673    pred/act E change: -0.217D-03 -0.515D-04
+Maxdispl :   0.0114   ||displ|| :   0.0147   Lambda : -0.566D-05
+Largest |displ|/coords:  0.0114 (   4)  0.0093 (   1)  0.0010 (  11)
+................................................................................
+.............................. CYCLE    6 ......................................
+................................................................................
+   1     -8.6994106 -0.869941E+01  0.113E-02   11.00       0.0  T
+   2     -8.6994107 -0.749326E-07  0.594E-03   11.00       6.4  T
+   3     -8.6994107 -0.467741E-08  0.170E-03   11.00      22.2  T
+   4     -8.6994107 -0.752923E-09  0.406E-04   11.00      93.2  T
+   5     -8.6994107 -0.163004E-09  0.158E-04   11.00     239.0  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.63020309  G :  0.000253    pred/act E change: -0.516D-04 -0.378D-05
+Maxdispl :   0.0065   ||displ|| :   0.0084   Lambda : -0.101D-05
+Largest |displ|/coords:  0.0065 (   1)  0.0052 (   4)  0.0007 (  11)
+................................................................................
+.............................. CYCLE    7 ......................................
+................................................................................
+   1     -8.6994414 -0.869944E+01  0.678E-03   10.99       0.0  T
+   2     -8.6994414 -0.827651E-08  0.392E-03   10.99       9.7  T
+   3     -8.6994414 -0.117715E-08  0.579E-04   10.99      65.3  T
+   4     -8.6994414 -0.157273E-09  0.193E-04   10.99     195.4  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+speedup  1.00
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ E :     -8.63020361  G :  0.000021    pred/act E change: -0.283D-05 -0.525D-06
+Maxdispl :   0.0011   ||displ|| :   0.0012   Lambda : -0.148D-07
+Largest |displ|/coords:  0.0011 (   1)  0.0002 (   4)  0.0000 (   5)
+ancopt converged in          7 cycles
+total energy gain (kcal):     -2.6433
+================
+ final structure:
+================
+     7
+         -8.63020361
+C          -4.12339012944533   -0.71453178837854    0.30177517013775
+H          -3.75394846472513   -1.73773148065612    0.32725096445242
+H          -3.74286279323290   -0.23402074710318   -0.69100100829064
+H          -5.21640341702710   -0.69736120174433    0.26288215954555
+O          -3.60503185264478   -0.05223918515988    1.40853815383012
+H          -3.98525694548725    0.83107015057321    1.47061708348859
+H          -3.31095443743752    0.39395405246884   -1.81325995316378
+ 
+ Bond Distances (Angstroems)
+ ---------------------------
+C1-H2=1.0882         C1-H3=1.1667         C1-H4=1.0938         C1-O5=1.3901         H2-C1=1.0882         H3-C1=1.1667         
+H4-C1=1.0938         O5-C1=1.3901         O5-H6=0.9637         H6-O5=0.9637         
+ C  H  Rav=1.1162 sigma=0.0358  Rmin=1.0882  Rmax=1.1667     3
+ O  H  Rav=0.9637 sigma=0.0000  Rmin=0.9637  Rmax=0.9637     1
+ O  C  Rav=1.3901 sigma=0.0000  Rmin=1.3901  Rmax=1.3901     1
+ 
+ selected bond angles (degree)
+ --------------------
+H3-C1-H2=107.24                H4-C1-H2=110.78                H4-C1-H3=106.81                O5-C1-H2=107.62                
+O5-C1-H3=111.08                O5-C1-H4=113.17                H6-O5-C1=109.93                
+ 
+ selected dihedral angles (degree)
+ ---------------------------------
+H6-O5-C1-H2=185.96            H6-O5-C1-H3= 68.84            H6-O5-C1-H4=308.71            
+ 
+ CMA Distance (Angstroems)
+ ---------------------------
+R(CMA):  2.8308
+ 
+             =======================================
+             |                                     |
+             |        S C C  calculation           |
+             |                                     |
+             =======================================
+ #proc     :            2
+ Ncao      :           13
+ Nao       :           13
+ Nel       :           15
+ T(el)     :   300.0
+ intcut    :    25.0
+ scfconv   :  0.100E-05
+   qconv   :  0.100E-03
+ intneglect:  0.100E-07
+ broydamp  :      0.400
+ Nshell    :            9
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1     -8.6994414 -0.869944E+01  0.599E-05   10.99       0.0  T
+   2     -8.6994414 -0.561151E-11  0.262E-05   10.99    1442.2  T
+   3     -8.6994414 -0.405009E-12  0.115E-05   10.99    3291.4  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+
+          eigenvalues
+ #    :           1          2          3          4          5          6          7          8
+ occ. :        2.000      2.000      2.000      2.000      2.000      2.000      2.000      1.000
+ eps  :       -19.294    -17.251    -15.901    -14.677    -14.576    -12.811    -11.963     -9.273
+ #    :           9         10         11         12         13
+ occ. :        0.000      0.000      0.000      0.000      0.000
+ eps  :         1.720      3.556      4.430      5.481      6.752
+ 
+
+   #   Z            q   n(s)   n(p)   n(d)      C6AA      α(0)    relVol
+   1   6 C      0.039  1.041  2.920  0.000    20.955     6.704     0.543
+   2   1 H      0.067  0.933  0.000  0.000     2.102     2.267     0.449
+   3   1 H      0.089  0.911  0.000  0.000     1.877     2.143     0.424
+   4   1 H      0.037  0.963  0.000  0.000     2.480     2.463     0.487
+   5   8 O     -0.398  1.701  4.696  0.000    21.292     6.243     1.201
+   6   1 H      0.298  0.702  0.000  0.000     0.666     1.281     0.253
+   7   1 H     -0.132  1.132  0.000  0.000    16.597     7.449     1.474
+
+ Mol. C6AA /au*bohr^6 :        336.594734
+ Mol. C8AA /au*bohr^6 :       5947.498019
+ Mol. a(0) /au        :         28.549641
+
+ 
+ Wiberg/Mayer (AO) data. WBOs > 0.1 written file <wbo>
+ largest (>0.05) Wiberg bond orders for each atom
+           total WBO             WBO to atom ...
+     1  C   3.745    O    5 1.038    H    2 0.974    H    4 0.971    H    3 0.752
+     2  H   0.991    C    1 0.974
+     3  H   0.988    C    1 0.752    H    7 0.224
+     4  H   0.990    C    1 0.971
+     5  O   1.994    C    1 1.038    H    6 0.898
+     6  H   0.910    O    5 0.898
+     7  H   0.270    H    3 0.224
+ (R)spin-density population
+ 
+ Mulliken population n(s)   n(p)   n(d)
+     1 C   0.2005   0.021  0.179  0.000
+     2 H   0.0045   0.004  0.000  0.000
+     3 H   0.0045   0.004  0.000  0.000
+     4 H   0.0085   0.009  0.000  0.000
+     5 O   0.0691   0.000  0.069  0.000
+     6 H   0.0009   0.001  0.000  0.000
+     7 H   0.7120   0.712  0.000  0.000
+ 
+molecular dipole:
+                 x           y           z       tot (Debye)
+ q only:       -0.482       0.046       0.190
+   full:       -0.642       0.180       0.115       1.718
+molecular quadrupole (traceless):
+                xx          xy          yy          xz          yz          zz
+ q only:        7.238      -0.650      -1.061      -2.542       2.404      -6.177
+  q+dip:        9.892      -2.384      -1.602      -2.919       2.173      -8.290
+   full:        9.701      -2.313      -1.553      -2.598       2.649      -8.148
+ SCC converged in            3  cycles
+ 
+SCC energy    :      -8.6994414
+rep           :       0.0692374
+ES            :       0.0221061
+AES           :       0.0011215
+AXC           :       0.0003127
+disp          :      -0.0017840
+XB            :       0.0000000
+fix           :       0.0000000
+total E       :      -8.6302036
+atomizationE  :       1.2741204      799.52
+(atE without considerung molecular charge,
+ total energy contains solvation terms)
+H-L gap (eV)  :         10.9926
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ ! Note: the input coordinates are !
+ ! NOT overwritten. The optimized  !
+ ! ones are on file <xtbopt.coord> !
+ ! (or on <xtbopt.xyz> if it was a !
+ ! xyz file)                       !
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 
+Refinement of some symmetry elements was terminated before convergence was reached.
+Some symmetry elements may remain unidentified.
+Molecule has no symmetry elements
+It seems to be the C1 point group
+c1  symmetry found (for desy threshold:  0.10E+00) used in thermo
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ 
+             =======================================
+             |                                     |
+             |         Numerical Hessian           |
+             |                                     |
+             =======================================
+step length          :   0.00500
+SCC accuracy         :   0.30000
+Hessian scale factor :   1.00000
+frozen atoms in %    :   0.00000    0
+RMS gradient         :   0.00002
+estimated CPU  time      0.00 min
+estimated wall time      0.00 min
+ 
+ writing file <hessian>.
+ 
+ projected vibrational frequencies (cm-1)
+eig.   :       -0.00    -0.00     0.00     0.00     0.00     0.00
+eig.   :      289.54   371.26   499.03   774.45  1040.27  1125.45
+eig.   :     1144.61  1298.57  1389.03  1411.05  1432.81  1941.47
+eig.   :     2939.16  3030.90  3540.77
+ reduced masses (amu)
+   1:  6.95   2: 11.45   3:  9.14   4:  9.57   5:  5.52   6: 12.61   7:  3.17   8:  3.15
+   9:  1.57  10:  1.25  11:  2.97  12: 11.53  13:  3.83  14:  4.15  15:  1.99  16:  1.41
+  17:  1.96  18:  1.64  19:  1.68  20:  1.75  21:  1.87
+ IR intensities (amu)
+   1:  0.28   2:  0.13   3:  0.14   4:  0.23   5:  0.13   6:  0.38   7:  0.18   8:  0.61
+   9:  0.31  10:  0.19  11:  0.64  12:  1.36  13:  0.52  14:  0.55  15:  0.19  16:  0.13
+  17:  0.14  18:  0.16  19:  0.29  20:  0.18  21:  0.19
+ output can be read by thermo (or use thermo option).
+ writing <g98.out> molden fake output.
+ recommended (thermochemical) frequency scaling factor: 1.0
+                    ==================
+                    thermo calculation
+                    ==================
+Nvib :   15 Nimag : 0  symmetry :   c1  rot number :  1  scale factor : 1.00 sthr :  50.
+omega=289.54     Gvib=    -0.440     Grot=    -0.535     Gused=    -0.440
+ 
+   temp. (K)  partition function   enthalpy   heat capacity  entropy
+                                   cal/mol     cal/K/mol   cal/K/mol   J/K/mol
+ 298.15  VIB   1.83                  747.451      6.479      3.710
+         ROT  0.578E+04              888.752      2.981     20.194
+         INT  0.106E+05             1636.203      9.460     23.904
+         TR   0.184E+27             1481.254      4.968     36.401
+         TOT                        3117.4571    14.4282    60.3054   252.3167
+                     Eh         kcal/mol          kJ/mol 
+ZPVE            0.506399E-01     31.7770         132.955    
+H(0)-H(T)+PV    0.496798E-02     3.11746         13.0434    
+H(T)            0.556079E-01     34.8945         145.998    
+T*S             0.286530E-01     17.9800         75.2282    
+G(T)            0.269549E-01     16.9145         70.7698    
+     -8.60324869  <=== TOTAL FREE ENERGY in Eh incl. el.,ZPVE,RRHO,solv. parts
+ 
+Eat (element increment corrected) /kcal :   502.205
+          23.649  <=== HOF(298)/kcal, to be compared to exptl. data
+ 
+ normal mode %tage of torsion character
+   1:  0.00   2:  0.00   3:  0.00   4:  0.00   5:  0.00   6:  0.00   7:  0.96   8:  1.00
+   9:  0.99  10:  0.50  11:  0.60  12:  0.95  13:  0.99  14:  0.82  15:  0.95  16:  0.99
+  17:  0.76  18:  0.66  19:  0.85  20:  0.47  21:  0.00
+ recommended # of modes for mode following           4
+ 
+speedup  0.94
+cpu  time for all    0.24 s
+wall time for all    0.26 s

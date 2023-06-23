@@ -1,0 +1,18 @@
+%chk=\\mdstor\ua25450\oneqbit\solution-entropy\benchmarks\chloroform\calc.chk
+# hf/3-21g geom=connectivity
+
+Title Card Required
+
+0 1
+ C                 -2.87253139   -0.20646319    0.00000000
+ Cl                -4.63253139   -0.20644166   -0.00000005
+ Cl                -2.28585454    0.62320141   -1.43703407
+ Cl                -2.28588502   -1.86581428    0.00000023
+ H                 -2.51585858    0.29793540    0.87365129
+
+ 1 2 1.0 3 1.0 4 1.0 5 1.0
+ 2
+ 3
+ 4
+ 5
+

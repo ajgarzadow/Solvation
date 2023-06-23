@@ -1,0 +1,41 @@
+
+solvent = cyclohexane.xyz
+solute = calc.xyz
+temperature = 298.15
+#temperature = 353.9
+pressure = 1 # pressure in bar
+concentration = 1
+symmetry = 1
+symmetry_solvent = 6
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+omega = 0.212 # cyclohexane
+
+
+area_solute  =  384.40982
+vol_solute =  103.49590
+
+area_solvent =  387.1853913181451
+vol_solvent =  100.72204384036915
+
+
+dipole_solute = 1.712
+dipole_solvent = 0
+epsilon_r = 2.02
+
+rho_solvent = 0.7781
+alpha = 0.001214
+dipole_file = calc.log
+dipole_file_solvent = cyclohexane.log
+MBB_Solute =  297.12106310126666
+MBB_Solvent =  239.73504190625485
+MBB_Solute =  297.12106310126666
+MBB_Solvent =  239.73504190625485

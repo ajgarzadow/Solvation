@@ -1,0 +1,24 @@
+Error: software termination
+   rax fffffffffffffffc, rbx 00007fff37803810, rcx ffffffffffffffff
+   rdx 0000000000000000, rsp 00007fff378037d8, rbp 0000000000000001
+   rsi 00007fff37803810, rdi 000000000004bf18, r8  00007f474f6c7700
+   r9  0000000000000000, r10 0000000000000000, r11 0000000000000246
+   r12 00007fff37803830, r13 00000000000000bc, r14 0000000000000000
+   r15 00007fff3780a1f0
+  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/libpthread.so.0(+0xf5e0) [0x7f474f9dd5e0]
+  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/libc.so.6(waitpid+0x1c) [0x7f474f3c7dbc]
+  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/libc.so.6(+0x41cc2) [0x7f474f34acc2]
+  g16() [0x4056aa]
+  g16() [0x404ad2]
+  g16() [0x4037ab]
+  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/libc.so.6(__libc_start_main+0xf5) [0x7f474f32ac05]
+  g16() [0x4036a9]
+Error: software termination
+   rax 000000005cc412c0, rbx 000000005cc410c0, rcx 000000005cc308e0
+   rdx 0000000000000052, rsp 00007ffea5894358, rbp 000000005cc410c0
+   rsi 000000005cc45500, rdi 000000000000005a, r8  000000005cc30280
+   r9  0000000000000100, r10 0000000000000003, r11 0000000000000004
+   r12 00000000000000c0, r13 0000000000004380, r14 0000000000000003
+   r15 000000005cc410c0
+  /usr/lib/gcc/x86_64-redhat-linux/4.8.5/../../../../lib64/libpthread.so.0(+0xf5e0) [0x7f0dbef305e0]
+  /share/apps/Gaussian/g16a03/g16/l1110.exe() [0xfc6b24]

@@ -1,0 +1,35 @@
+
+solvent = iodine.xyz
+solute = iodine.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 15.6
+symmetry = 2
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = True # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+omega = 0.229 # iodine 
+
+area_solute =  81.83536863857015
+vol_solute =  55.88643279383084
+area_solvent =  81.45001660378857
+vol_solvent =  55.95278036155845
+
+dipole_solute = 0
+dipole_solvent = 0
+epsilon_r = 4
+
+rho_solvent = 3.96
+dipole_file = calc.log
+dipole_file_solvent = calc.log
+MBB_Solute =  136.398782562755
+MBB_Solvent =  136.398782562755
+MBB_Solute =  136.398782562755
+MBB_Solvent =  136.398782562755
+#alpha = 0.00

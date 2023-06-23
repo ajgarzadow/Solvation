@@ -1,0 +1,49 @@
+
+solvent = toluene.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 1
+symmetry = 1
+symmetry_solvent = 2
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+#omega = 0.212 # benzene
+#omega = 0.325 # m-Xylene
+omega = 0.263 # toluene
+
+
+
+area_solute  =  384.40982
+vol_solute =  103.49590
+
+area_solvent =  361.84210
+vol_solvent =  99.41395
+
+
+dipole_solute = 1.712
+dipole_solvent = 0.536
+epsilon_r = 2.38
+
+
+alpha = 0.00108
+T_c = 591.79
+sigma_0 = 28.4E-3
+dsigma_dt = -0.1189E-3
+
+rho_solvent = 0.867
+dipole_file = calc.log
+dipole_file_solvent = toluene.log
+MBB_Solute =  297.12106310126666
+MBB_Solvent =  227.97336790031915
+MBB_Solute =  297.12106310126666
+MBB_Solvent =  227.97336790031915

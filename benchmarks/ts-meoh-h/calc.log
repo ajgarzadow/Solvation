@@ -1,0 +1,409 @@
+ 
+        ______________________________________
+       |                                      |
+       |           ==================         |
+       |                 x T B                |
+       |           ==================         |
+       |               S. Grimme              |
+       |        Universitaet Bonn, MCTC       |
+       |         2015-18, Version 5.8.1       |
+       |      Sun May  6 11:39:08 CEST 2018   |
+       |______________________________________|
+ 
+        This code comes without any warranty
+        for non-commercial, academia use only.
+        Preliminary GFN2 test version.
+        Test license to: Dow Chemical Company
+        Cite GFN-xTB work as:
+        S. Grimme, C. Bannwarth, P. Shushkov
+        JCTC, 13 (2017) 1989-2009
+        for GFN2:
+        C. Bannwarth, S. Ehlert, S. Grimme
+        to be published.
+        sTDA-xTB:
+        S. Grimme  &  C. Bannwarth, JCP 145 (2016) 054103
+        in the mass-spec context additionally:
+        V. Asgeirsson, C.Bauer, S. Grimme, Chem. Sci. 8 (2017) 4879
+ 
+        with help from
+        P. Shushkov, G. Brandenburg, S. Dohm, J. Pisarek,
+        F. März, M. Checinski, S. Ehrlich, S. Spicher, 
+        P. Pracht, E. Caldeweyher, S. Ehlert, and C. Bannwarth.
+ 
+        usage        :
+        xtb <coord_file> [options]
+        where <coord_file> is a valid file of TM)
+        (*coord, Bohr) or xmol (*xyz, Angstroem)
+        format.
+
+        options:
+        -chrg <int>   : molecular charge
+        -uhf  <int>   : # of unpaired electrons(=2*S)
+        -nox          : skip second, extended part in sTDA-xTB
+        -pop          : do population analysis
+                      : (default for -nox)
+        -mowr <real>  : cut MO write above (def.3 Eh)
+        -molden       : write formatted molden file
+        -parx <file>  : read parameters for sTDA-xTB
+                        calc (def:~/.param_stda2.xtb)
+        -parv <file>  : read parameters for vTB part in
+                        sTDA-xTB (def: ~/.param_stda1.xtb)
+        -xtemp <real> : el. temp for xTB (def. 0 K)
+        -etemp <real> : el. temp for GFN (def. 300 K)
+        -fod          : calculate the FOD and write
+                        molden.input file with
+                        appropriate occupations
+                        for plotting. Def. T=12500 K
+ 
+        -gfn1         : use GFN-xTB
+        -gfn2         : use GFN2-xTB
+        -gfn2d3       : GFN2-xTB with D3 instead of D4
+        -grad         : GFNn-xTB gradient
+        -acc <real>   : GFNn-xTB accuracy (def. 1.0)
+        -opt [level]  : optimize at GFNn-xTB
+                      : level=crude,vloose,loose,
+                      :       tight,vtight
+        -hess         : compute Hessian at GFNn-xTB
+        -ohess        : optimize and compute Hessian
+        -omd          : optimize and do MD
+        -siman        : conformational search
+        -screen       : opt. loop over ensemble
+        -gmd          : annealed MD for GMD procedure
+        -modef        : vib mode following
+        -gbsa [string1] [string2]
+                        use GBSA implicit solvent
+                        for solvent [string1] and
+                        solvation state [string2]=
+                        reference, bar1M (default=1M)
+        additional GFN/opt/MD/siman options read from
+        $XTBHOME/.xtbrc or $set in coordinate file
+ 
+       spin and charge state information can be on:
+       <.CHRG> (charge) and <.UHF> (=nalpha-nbeta)
+       -uhf and -chrg override the file info.
+       useful machine settings:
+       setenv MKL_NUM_THREADS <NCORE_ON_YOUR_MACHINE>
+       setenv OMP_STACKSIZE 500m
+       limit stacksize unlimited
+ 
+       total energies in Eh, gaps/HL energies in eV
+       please read REVISION and HOWTO files carefully
+          54  days left until this code expires
+ =============================
+  # OMP threads =           2
+ =============================
+ 
+ xtbhome directory:/home/ua25450/dftb/
+ 
+ argument            1 :-hess
+ 
+ name of molecule           :
+ comment line               :
+ number of atoms            :     7
+ number of electrons        :    15
+ charge                     :  0
+ spin                       : 0.5
+ first test random number   :  0.5934
+ 
+ 
+ -----------------------------------------
+  G F N (Geometry, Frequency, Non-covalent)
+        parametrization, gfnver=           3
+     D4 dispersion model
+ /home/ua25450/dftb/.param_gfn2.xtb
+ -----------------------------------------
+      method parameters     
+ k(s)        :  1.8500
+ k(p)        :  2.2300
+ k(d)        :  2.2300
+ k(f)        :  2.0000
+ kEN (H0ij)  : -2.0000
+ D3 a1       :  0.5200
+ D3 a2       :  5.0000
+ D3 s8       :  2.7000
+ D3atm       :  5.0000
+ alphaj      :  2.0000
+ 
+     -------------------------
+     ! NO SOLVENT MODEL USED !
+     -------------------------
+ 
+ doing EN charges ...
+ sum q : -0.2220446D-15
+ point charge moment (au)
+     X       Y       Z   
+  -0.1954   0.0253  -0.1778  total (Debye):    0.675
+ 
+            Z     q(EN)     CN     RAES       Cart. coordinates
+     1  C   4.0   -0.03    3.76    3.29    -7.78076    -1.32465     0.58993
+     2  H   1.0    0.04    0.99    1.43    -7.04962    -3.25033     0.52998
+     3  H   1.0    0.02    0.91    1.42    -7.00585    -0.31902    -1.49816
+     4  H   1.0    0.04    0.98    1.43    -9.84862    -1.26181     0.43912
+     5  O   6.0   -0.18    1.98    1.82    -6.78067    -0.08703     2.65249
+     6  H   1.0    0.11    1.02    1.43    -7.56280     1.55267     2.79063
+     7  H   1.0    0.00    0.14    1.40    -6.38861     0.51224    -3.11008
+ 
+  Z AO/shell   Hii/eV     exponent
+  1     Wed Apr 25 08:07:45 CEST 2018   EN: 2.200 GM2: 0.406  GM3: 0.0800  RAES: 1.40
+     1s    -10.707211    1.230000
+  6     Wed Apr 25 08:07:45 CEST 2018   EN: 2.550 GM2: 0.538  GM3: 0.1500  RAES: 3.00
+     2s    -13.970922    2.096432
+     2p    -10.063292    1.800000
+  8     Wed Apr 25 08:07:45 CEST 2018   EN: 3.440 GM2: 0.452  GM3:-0.0517  RAES: 1.80
+     2s    -20.229985    2.439742
+     2p    -15.503117    2.137023
+ 
+Refinement of some symmetry elements was terminated before convergence was reached.
+Some symmetry elements may remain unidentified.
+Molecule has no symmetry elements
+It seems to be the C1 point group
+c1  symmetry found (for desy threshold:  0.10E+00) used in thermo
+ no old-style atom pair restraing (fixing) potential
+ 
+ molecular fragmentation (1/2 indicates fragments):
+1111112
+# atoms in fragment 1/2:     6     1
+ fragment masses (1/2) :       32.04        1.01
+CMA distance (Bohr)    :   4.949
+constraining FC (au)   :  0.0500
+ 
+             =======================================
+             |                                     |
+             |        S C C  calculation           |
+             |                                     |
+             =======================================
+ #proc     :            2
+ Ncao      :           13
+ Nao       :           13
+ Nel       :           15
+ T(el)     :   300.0
+ intcut    :    25.0
+ scfconv   :  0.100E-05
+   qconv   :  0.100E-03
+ intneglect:  0.100E-07
+ broydamp  :      0.400
+ Nshell    :            9
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1     -8.6968193 -0.869682E+01  0.204E-05   10.57       0.0  T
+   2     -8.6968193 -0.177636E-14  0.123E-05   10.57    3077.4  T
+   3     -8.6968193  0.000000E+00  0.379E-07   10.57   99680.8  T
+speedup  1.00
+cpu  time for SCC    0.00 s
+wall time for SCC    0.00 s
+
+          eigenvalues
+ #    :           1          2          3          4          5          6          7          8
+ occ. :        2.000      2.000      2.000      2.000      2.000      2.000      2.000      1.000
+ eps  :       -19.278    -17.095    -15.816    -14.551    -14.447    -12.714    -12.117     -8.424
+ #    :           9         10         11         12         13
+ occ. :        0.000      0.000      0.000      0.000      0.000
+ eps  :         2.151      3.543      4.705      6.231      7.117
+ 
+
+   #   Z            q   n(s)   n(p)   n(d)      C6AA      α(0)    relVol
+   1   6 C      0.028  1.059  2.913  0.000    22.871     7.290     0.590
+   2   1 H      0.057  0.943  0.000  0.000     2.228     2.334     0.462
+   3   1 H      0.086  0.914  0.000  0.000     1.911     2.166     0.429
+   4   1 H      0.027  0.973  0.000  0.000     2.627     2.535     0.501
+   5   8 O     -0.388  1.705  4.683  0.000    21.091     6.213     1.196
+   6   1 H      0.298  0.702  0.000  0.000     0.665     1.280     0.253
+   7   1 H     -0.109  1.109  0.000  0.000    14.366     6.929     1.371
+
+ Mol. C6AA /au*bohr^6 :        336.970199
+ Mol. C8AA /au*bohr^6 :       6010.445056
+ Mol. a(0) /au        :         28.745967
+
+ 
+ Wiberg/Mayer (AO) data. WBOs > 0.1 written file <wbo>
+ largest (>0.05) Wiberg bond orders for each atom
+           total WBO             WBO to atom ...
+     1  C   3.521    O    5 1.056    H    2 0.973    H    4 0.969    H    3 0.514
+     2  H   0.991    C    1 0.973
+     3  H   0.994    C    1 0.514    H    7 0.470
+     4  H   0.989    C    1 0.969
+     5  O   2.002    C    1 1.056    H    6 0.896
+     6  H   0.910    O    5 0.896
+     7  H   0.510    H    3 0.470
+ (R)spin-density population
+ 
+ Mulliken population n(s)   n(p)   n(d)
+     1 C   0.4055   0.043  0.363  0.000
+     2 H   0.0056   0.006  0.000  0.000
+     3 H  -0.0015  -0.001  0.000  0.000
+     4 H   0.0106   0.011  0.000  0.000
+     5 O   0.1003   0.000  0.100  0.000
+     6 H   0.0012   0.001  0.000  0.000
+     7 H   0.4781   0.478  0.000  0.000
+ 
+molecular dipole:
+                 x           y           z       tot (Debye)
+ q only:       -0.422       0.158       0.072
+   full:        0.662       0.266       0.054       1.684
+molecular quadrupole (traceless):
+                xx          xy          yy          xz          yz          zz
+ q only:        6.099      -1.883      -1.083      -1.556       2.193      -5.016
+  q+dip:        9.080      -3.384      -1.787      -2.505       2.014      -7.293
+   full:        8.872      -3.282      -1.737      -2.247       2.414      -7.135
+ SCC converged in            3  cycles
+ 
+SCC energy    :      -8.6968193
+rep           :       0.0708278
+ES            :       0.0202252
+AES           :       0.0029537
+AXC           :       0.0014535
+disp          :      -0.0018363
+XB            :       0.0000000
+fix           :       0.0000000
+total E       :      -8.6259912
+atomizationE  :       1.2699080      796.88
+(atE without considerung molecular charge,
+ total energy contains solvation terms)
+H-L gap (eV)  :         10.5742
+ 
+             =======================================
+             |                                     |
+             |        S C C  calculation           |
+             |                                     |
+             =======================================
+ #proc     :            2
+ Ncao      :           13
+ Nao       :           13
+ Nel       :           15
+ T(el)     :   300.0
+ intcut    :    30.2
+ scfconv   :  0.300E-06
+   qconv   :  0.300E-04
+ intneglect:  0.300E-08
+ broydamp  :      0.400
+ Nshell    :            9
+  q data taken from xtbrestart
+  CAMM data taken from xtbrestart
+ iter      E             dE          RMSdq      gap      omega  full diag
+   1     -8.6968193 -0.869682E+01  0.206E-05   10.57       0.0  T
+   2     -8.6968193 -0.710543E-14  0.124E-05   10.57    3044.2  T
+   3     -8.6968193  0.177636E-14  0.495E-07   10.57   76358.1  T
+speedup  1.00
+cpu  time for SCC    0.01 s
+wall time for SCC    0.01 s
+
+          eigenvalues
+ #    :           1          2          3          4          5          6          7          8
+ occ. :        2.000      2.000      2.000      2.000      2.000      2.000      2.000      1.000
+ eps  :       -19.278    -17.095    -15.816    -14.551    -14.447    -12.714    -12.117     -8.424
+ #    :           9         10         11         12         13
+ occ. :        0.000      0.000      0.000      0.000      0.000
+ eps  :         2.151      3.543      4.705      6.231      7.117
+ 
+
+   #   Z            q   n(s)   n(p)   n(d)      C6AA      α(0)    relVol
+   1   6 C      0.028  1.059  2.913  0.000    22.871     7.290     0.590
+   2   1 H      0.057  0.943  0.000  0.000     2.228     2.334     0.462
+   3   1 H      0.086  0.914  0.000  0.000     1.911     2.166     0.429
+   4   1 H      0.027  0.973  0.000  0.000     2.627     2.535     0.501
+   5   8 O     -0.388  1.705  4.683  0.000    21.091     6.213     1.196
+   6   1 H      0.298  0.702  0.000  0.000     0.665     1.280     0.253
+   7   1 H     -0.109  1.109  0.000  0.000    14.366     6.929     1.371
+
+ Mol. C6AA /au*bohr^6 :        336.970194
+ Mol. C8AA /au*bohr^6 :       6010.445004
+ Mol. a(0) /au        :         28.745967
+
+ 
+molecular dipole:
+                 x           y           z       tot (Debye)
+ q only:       -0.422       0.158       0.072
+   full:       -0.604       0.266       0.054       1.684
+molecular quadrupole (traceless):
+                xx          xy          yy          xz          yz          zz
+ q only:        6.099      -1.883      -1.083      -1.556       2.193      -5.016
+  q+dip:        9.080      -3.384      -1.787      -2.505       2.014      -7.293
+   full:        8.872      -3.282      -1.737      -2.247       2.414      -7.135
+ SCC converged in            3  cycles
+speedup  0.99
+cpu  time for grad    0.00 s
+wall time for grad    0.00 s
+ 
+SCC energy    :      -8.6968193
+rep           :       0.0708278
+ES            :       0.0202252
+AES           :       0.0029537
+AXC           :       0.0014535
+disp          :      -0.0018363
+XB            :       0.0000000
+fix           :       0.0000000
+grad norm     :       0.0242815
+total E       :      -8.6259912
+atomizationE  :       1.2699080      796.88
+(atE without considerung molecular charge,
+ total energy contains solvation terms)
+H-L gap (eV)  :         10.5742
+ 
+             =======================================
+             |                                     |
+             |         Numerical Hessian           |
+             |                                     |
+             =======================================
+step length          :   0.00500
+SCC accuracy         :   0.30000
+Hessian scale factor :   1.00000
+frozen atoms in %    :   0.00000    0
+RMS gradient         :   0.02428
+ WARNING WARNING WARNING WARNING WARNING WARNING
+   Hessian on incompletely optimized geometry!
+ WARNING WARNING WARNING WARNING WARNING WARNING
+estimated CPU  time      0.00 min
+estimated wall time      0.00 min
+ 
+ writing file <hessian>.
+ 
+ projected vibrational frequencies (cm-1)
+eig.   :       -0.00    -0.00    -0.00     0.00     0.00     0.00
+eig.   :      171.48   374.96   507.86   678.54  1038.27  1072.86
+eig.   :     1156.37  1259.47  1286.31  1305.12  1438.85  1674.83
+eig.   :     2889.38  2998.93  3533.92
+ reduced masses (amu)
+   1:  6.28   2:  9.11   3: 10.18   4: 11.12   5: 11.90   6:  6.76   7:  2.95   8:  3.34
+   9:  1.95  10:  2.69  11:  2.08  12:  2.96  13: 11.85  14:  2.44  15:  1.70  16:  2.55
+  17:  2.12  18:  1.83  19:  1.67  20:  1.78  21:  1.87
+ IR intensities (amu)
+   1:  0.35   2:  0.13   3:  0.25   4:  0.22   5:  0.13   6:  0.21   7:  0.12   8:  0.51
+   9:  0.32  10:  0.34  11:  0.38  12:  0.56  13:  1.45  14:  0.14  15:  0.34  16:  0.36
+  17:  0.32  18:  0.59  19:  0.32  20:  0.22  21:  0.19
+ output can be read by thermo (or use thermo option).
+ writing <g98.out> molden fake output.
+ recommended (thermochemical) frequency scaling factor: 1.0
+                    ==================
+                    thermo calculation
+                    ==================
+Nvib :   15 Nimag : 0  symmetry :   c1  rot number :  1  scale factor : 1.00 sthr :  50.
+omega=171.48     Gvib=    -0.721     Grot=    -0.690     Gused=    -0.721
+ 
+   temp. (K)  partition function   enthalpy   heat capacity  entropy
+                                   cal/mol     cal/K/mol   cal/K/mol   J/K/mol
+ 298.15  VIB   2.47                  881.959      6.984      4.758
+         ROT  0.543E+04              888.752      2.981     20.073
+         INT  0.134E+05             1770.711      9.965     24.830
+         TR   0.184E+27             1481.254      4.968     36.401
+         TOT                        3251.9649    14.9331    61.2316   256.1922
+                     Eh         kcal/mol          kJ/mol 
+ZPVE            0.487235E-01     30.5744         127.923    
+H(0)-H(T)+PV    0.518234E-02     3.25196         13.6062    
+H(T)            0.539058E-01     33.8264         141.529    
+T*S             0.290931E-01     18.2562         76.3837    
+G(T)            0.248127E-01     15.5702         65.1455    
+     -8.60117848  <=== TOTAL FREE ENERGY in Eh incl. el.,ZPVE,RRHO,solv. parts
+ 
+Eat (element increment corrected) /kcal :   500.209
+          24.577  <=== HOF(298)/kcal, to be compared to exptl. data
+ 
+ normal mode %tage of torsion character
+   1:  0.00   2:  0.00   3:  0.00   4:  0.00   5:  0.00   6:  0.00   7:  0.81   8:  1.00
+   9:  1.00  10:  0.92  11:  0.95  12:  1.00  13:  0.98  14:  1.00  15:  0.99  16:  1.00
+  17:  0.78  18:  0.49  19:  0.96  20:  0.94  21:  0.00
+ recommended # of modes for mode following           4
+ 
+speedup  0.88
+cpu  time for all    0.21 s
+wall time for all    0.23 s

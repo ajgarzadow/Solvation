@@ -1,0 +1,31 @@
+The entropies of molecules in solution are routinely 
+	calculated using gas phase formulae. It is assumed that, 
+	because solvation models have been fitted to reproduce 
+	free energies, 
+	this is sufficient for modeling reactions in solution. 
+	However, this procedure severely underestimates 
+	$\Delta S$ 
+	in reactions that generate adducts and adsorption
+	 processes. 	
+	Here, two alternative, inexpensive methods to compute molecular
+	entropies 
+	in solution are proposed to address this issue.
+	%and can accurately reproduce experimental entropies. 
+	The methods, denoted $S_\omega$ and $S_\text{SPT}$,
+	 do not use any empirical parameters, but only 
+	basic solvent properties. $S_\omega$ utilizes a molecular 
+	property (the Pitzer acentric factor), while $S_\text{SPT}$ uses a 
+	macroscopic property (the 
+	thermal expansion coefficient); 
+	a connection between these two properties is thus  
+	established.  
+	A database of 105 experimental solvation entropies 
+	is constructed to test the methods; 
+	both $S_\omega$ and $S_\text{SPT}$ provide average 
+	errors in the range of chemical accuracy 
+	($\approx$ 2--3 cal/mol-K or $<$ 1 kcal/mol at 300 K).
+	These results  imply that solvation models that 
+	can describe $\Delta H_\text{sol}$ and $\Delta S_\text{sol}$  separately and
+	accurately can be developed by combining
+	$S_\omega$ or $S_\text{SPT}$  with
+	existing  (reparametrized) models.

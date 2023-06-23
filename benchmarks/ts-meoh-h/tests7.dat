@@ -1,0 +1,20 @@
+rho_solvent =  1.0
+vol_free/vol_solvent =  0.962737611017574
+use_sasa =  False
+r_probe =  40.0
+sphericities (solvent, solute) =  0.7070830035061424 1.0180306569918463
+interp_vol =  False
+area_solute =  43.742141562879986
+vol_solute =  27.942493638655993
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023
+sasa_solvent =  49.650340896390425
+sasa_solute =  64.82572812288
+S_gas t r v =  37.00818103640134 0.0 0.0
+S_gas (Total) =  37.00818103640134
+S_sol t r v cav =  26.03801223810557 0.0 0.0 -4.441925390637556
+S_sol (Total) =  21.596086847468012
+Time =  0.0042688846588134766
+ Test Results: 
+DS_sol
+-21.79 -21.79 -21.79

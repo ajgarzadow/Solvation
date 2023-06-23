@@ -1,0 +1,31 @@
+#!/bin/bash
+#PBS -N ts1
+#PBS -l nodes=1:ppn=2
+#PBS -l walltime=10:00:00
+#PBS -k n
+
+cd $PBS_O_WORKDIR
+echo "Setting directory to $PBS_O_WORKDIR"
+NPROCS=`wc -l < $PBS_NODEFILE`
+echo "This job has allocated $NPROCS processors"
+
+
+export g16root=/share/apps/Gaussian/g16a03
+source $g16root/g16/bsd/g16.profile
+
+date
+
+g16 calc.gjf > calc.log
+
+date
+
+
+##### Job Completion Messages #####
+echo "Finishing job"
+echo " "
+exit
+
+
+
+
+

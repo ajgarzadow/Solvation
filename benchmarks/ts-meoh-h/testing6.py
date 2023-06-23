@@ -1,0 +1,698 @@
+#!/usr/bin/python
+# Author: Alejandro J. Garza 
+# Purpose Compute entropy in solution
+import sys
+import os
+import string
+import numpy as np
+import math as m
+import random
+import time
+
+def print_usage():
+    print("Usage: ")
+    print("python entropy-solution.py imput_file")
+    print(" ")
+    print("The input file must define the following")
+    print("mandatory arguments:")
+    print(" solute = (xyz file for solute molecule)")
+    print(" solvent = (xyz file for solvent molecule)")    
+    print(" ")
+    print("The following arguments are optional:")
+    print(" temperature = (temperature in Kelvin; default = 300)")
+    print(" omega = (Pitzer acentric factor of solvent; default = estimate from geometry (not recommended))")
+    print(" concentration = (concentration in mol/L of solute; default = 1M)")
+    print(" symmetry = (rotational symmetry number of solute; default = 1)")
+    print("nu0 = (low frequency threshold in cm^-1; default = 100 cm^-1)")
+    print("freq_file = (a file with the vibrational frequencies in Gaussian format)")
+    print
+    print(" ")
+    print("The format requires spaces between the variable name, the")
+    print(" '=' sign, and the variable value.")
+    print("A list of Pitzer acentric factors for common solvents is")
+    print("available at:")
+    print("http://www.kaylaiacovino.com/Petrology_Tools/Critical_Constants_and_Acentric_Factors.htm.)")
+    return
+
+if (len(sys.argv) != 2):
+    print("Error: Wrong number of arguments.")
+    print_usage()
+    sys.exit()
+
+# Physical Constants
+h = (4.13567E-15) # Planck constant in eV*s
+k = (8.61733E-5) # Boltzmann constant in eV/K
+c = 299792458*100 #speed of light in cm/s
+epsilon_0 = 8.9542E-12 # permittivity of vacuum in SI
+pi = np.pi
+
+# Default values for parameters/thresholds
+T = 298.15
+P = 101325.0 # Pressure in Pa
+concentration = 1
+sigma_r = 1 # rotational symmetry number
+omega = 'not given' # to be determined later if not defined
+nu0 = 100
+nu0_r = 100
+interp_Sr = True
+#interp_Sr = False
+linear_mol = False
+use_sasa = False
+#use_sasa = True
+r_probe = 40.0
+interp_vol = False
+#interp_vol = True
+interp_both = True
+#surface_tension = True
+surface_tension = False
+
+# Initialize other optional input variables
+area_solute = 0; vol_solute = 0
+area_solvent = 0; vol_solvent = 0
+sasa_solvent = 0; sasa_solute = 0
+dipole_solvent = 0; dipole_solute = 0
+epsilon_r = 1 # relative permittivity
+
+# Get parameters/directives from input file
+f_directives = open(sys.argv[1],"r")
+for line in f_directives.readlines():
+    aline = line.split()
+    if (len(aline) >= 3):
+        aline[0] = aline[0].lower()
+        if (aline[0] == 'solvent'):
+            solvent_xyz = aline[2]
+        elif (aline[0]  == 'solute'):
+            solute_xyz = aline[2]
+        elif (aline[0]  == 'temperature'):
+            T = float(aline[2])
+        elif (aline[0] == "pressure"):
+            P = float(aline[2])*100000
+        elif (aline[0]  == 'symmetry'):            
+            sigma_r = float(aline[2])
+        elif (aline[0]  == 'omega'):            
+            omega = float(aline[2])
+        elif (aline[0]  == 'nu0'):            
+            nu0 = float(aline[2])
+        elif (aline[0]  == 'nu0_r'):            
+            nu0_r = float(aline[2])            
+        elif (aline[0] == "freq_file"):
+            freq_file = aline[2]
+        elif (aline[0] == "interpolate_sr"):
+            interp_Sr = (aline[2].lower() == 'true')
+        elif (aline[0] == "linear"):
+            linear_mol = (aline[2].lower() == 'true')
+        elif (aline[0]  == 'area_solute'):            
+            area_solute = float(aline[2])            
+        elif (aline[0]  == 'vol_solute'):            
+            vol_solute = float(aline[2])                        
+        elif (aline[0]  == 'area_solvent'):            
+            area_solvent = float(aline[2])            
+        elif (aline[0]  == 'vol_solvent'):            
+            vol_solvent = float(aline[2])
+        elif (aline[0]  == 'concentration'):
+            concentration = float(aline[2])
+        elif (aline[0]  == 'interp_vol'):
+            interp_vol = (aline[2].lower() == 'true')
+        elif (aline[0]  == 'use_sasa'):
+            use_sasa = (aline[2].lower() == 'true')
+        elif (aline[0]  == 'r_probe'):            
+            r_probe = float(aline[2])*100
+        elif (aline[0]  == 'sasa_solvent'):            
+            sasa_solvent = float(aline[2])
+        elif (aline[0]  == 'sasa_solute'):            
+            sasa_solute = float(aline[2])
+        elif (aline[0]  == 'dipole_solute'):            
+            dipole_solute = float(aline[2])            
+        elif (aline[0]  == 'dipole_solvent'):            
+            dipole_solvent = float(aline[2])
+        elif (aline[0]  == 'epsilon_r'):            
+            epsilon_r = float(aline[2])                                    
+            
+
+            
+f_directives.close()
+#print(interp_Sr)
+# Thresholds/parameters
+u0 = c*nu0*h/(k*300) # Threshold for low frequency
+                     # default = 100 cm^{-1} at 300 K
+u0_r = c*nu0_r*h/(k*300) 
+nu = 20*c # 20 cm^-1 as the typical vibrational frequency of a rotation/vibration
+          # in as solvent cage
+u = h*nu/(k*T) 
+npts_mc = 1000000 # Number of points for Monte Carlo molecular volume evaluation
+
+# Constants for atoms              
+# Atomic masses 
+mass = {"H" : 1.008, \
+         "C" : 12.011, "N" : 14.007, "O" : 15.999, \
+         "P" : 30.974, "Cl" : 35.453, "Ar" : 39.948, \
+         "Ni" : 58.690, "I" : 126.90}
+# Pitzer accentric factors (for future use)
+Pitzer = {"toluene" : 0.263, "water" : 0.344, "iodine" : 0.229}
+# Pyykko's covalent radii in pm
+r_cov = {"H" : 32, \
+         "C" : 75, "N" : 71, "O" : 63, \
+         "P" : 111, \
+         "Ni" : 110}
+# Van der Waals radii in pm
+r_vdW = {"H" : 120, \
+         "C" : 170, "N" : 155, "O" : 152, \
+         "P" : 180, "Cl" : 175, "Ar" : 188, \
+         "Ni" : 163, "I" : 198}
+
+# Radius for surface accessible area
+r_sasa = {}
+if (use_sasa):
+    for element in r_vdW.keys():
+        r_sasa[element] =  r_vdW[element] + r_probe
+        
+# Useful functions
+# xyz are the atomic coordinates
+def centroid(x,y,z):
+    C = [0,0,0]
+    npts = len(x)
+    for i in range(npts):
+        C[0] = C[0] + x[i]
+        C[1] = C[1] + y[i]         
+        C[2] = C[2] + z[i]         
+    C[0] = C[0]/npts; C[1] = C[1]/npts; C[2] = C[2]/npts
+    return C
+
+# xyz are the atomic coordinates
+def center_mass(atoms,x,y,z):
+    C = [0,0,0]
+    npts = len(x)
+    M_tot = 0.0
+    for i in range(npts):
+        mi = mass[atoms[i]]
+        M_tot = M_tot + mi
+        C[0] = C[0] + mi*x[i]
+        C[1] = C[1] + mi*y[i]         
+        C[2] = C[2] + mi*z[i]         
+    C[0] = C[0]/M_tot; C[1] = C[1]/M_tot; C[2] = C[2]/M_tot
+    return C
+        
+
+# xyz are the atomic coordinates
+def moment_inertia(atoms,x,y,z):
+    Ixx = 0; Iyy = 0; Izz = 0
+    Ixy = 0; Iyz = 0; Ixz = 0
+    N_A = len(atoms)
+    C = center_mass(atoms,x,y,z)
+    I = 0.0
+    for i in range(N_A):
+        xi = (x[i]-C[0]); yi = (y[i]-C[1]); zi = (z[i]-C[2])
+        Ixx = Ixx + mass[atoms[i]]*(yi**2 + zi**2)
+        Iyy = Iyy + mass[atoms[i]]*(xi**2 + zi**2)
+        Izz = Izz + mass[atoms[i]]*(xi**2 + yi**2)
+        Ixy = Ixy - mass[atoms[i]]*(xi*yi)
+        Iyz = Iyz - mass[atoms[i]]*(yi*zi)
+        Ixz = Ixz - mass[atoms[i]]*(xi*zi)
+    I_matrix = np.array([[Ixx,Ixy,Ixz],[Ixy,Iyy,Iyz],[Ixz,Iyz,Izz]])
+    w = np.linalg.eig(I_matrix)[0]
+    Ix,Iy,Iz = w[0],w[1],w[2]
+    if (Ix < 10*np.finfo(float).eps):
+        I = (Iy*Iz)**(1/2)
+    elif (Iy < 10*np.finfo(float).eps):
+        I = (Ix*Iz)**(1/2)
+    elif (Iz < 10*np.finfo(float).eps):
+        I = (Ix*Iy)**(1/2)
+    else:
+        I = (Ix*Iy*Iz)**(1/3)
+    return I
+
+# Maximum distance from centroid for each coordinate
+# xyz are the atomic coordinates
+def max_r(x,y,z):
+    C = centroid(x,y,z)
+    npts = len(x)
+    x_max = 0; y_max = 0; z_max = 0
+    for i in range(npts):
+        xi = (x[i]-C[0])**2; yi = (y[i]-C[1])**2; zi = (z[i]-C[2])**2
+        if (xi > x_max):
+            x_max = xi
+        if (yi > y_max):
+            y_max = yi
+        if (zi > z_max):
+            z_max = zi
+    return [m.sqrt(x_max),m.sqrt(y_max),m.sqrt(z_max)]
+
+
+# Maximum distance from centroid for each coordinate
+# including vdW radii
+# xyz are the atomic coordinates
+def max_rv(atoms,x,y,z):
+    C = centroid(x,y,z)
+    npts = len(x)
+    x_max = 0; y_max = 0; z_max = 0
+    for i in range(npts):
+        xi = abs(x[i]-C[0]) + r_vdW[atoms[i]]/100
+        yi = abs(y[i]-C[1]) + r_vdW[atoms[i]]/100 
+        zi = abs(z[i]-C[2]) + r_vdW[atoms[i]]/100
+        print(xi,yi,zi)
+        if (xi > x_max):
+            x_max = xi
+        if (yi > y_max):
+            y_max = yi
+        if (zi > z_max):
+            z_max = zi
+    return [x_max,y_max,z_max]
+
+# Maximum distance between two atoms for each coordinate
+# including vdW radii
+# xyz are the atomic coordinates
+def max_dist(atoms,x,y,z):
+    npts = len(atoms)
+    x_max = 0; y_max = 0; z_max = 0
+    for i in range(npts):
+        for j in range(i,npts):
+            xi = abs(x[i]-x[j]); yi = abs(y[i]-y[j]); zi = abs(z[i]-z[j])
+            xi = xi + (r_vdW[atoms[i]] + r_vdW[atoms[j]])/100
+            yi = yi + (r_vdW[atoms[i]] + r_vdW[atoms[j]])/100
+            zi = zi + (r_vdW[atoms[i]] + r_vdW[atoms[j]])/100
+            if (xi > x_max):
+                x_max = xi
+            if (yi > y_max):
+                y_max = yi
+            if (zi > z_max):
+                z_max = zi
+    return [x_max,y_max,z_max]
+            
+
+# Sphericity = 1 for a pefectly spherical object
+def sphericity(vol,area):
+    psi = (pi**(1/3))*((6*vol)**(2/3))/area
+    return psi
+
+# Molecular volume evaluated with Monte Carlo
+# xyz are the atomic coordinates
+def mc_volume(atoms,x,y,z):
+    N_A = len(x)
+    x_box, y_box, z_box = max_r(x,y,z)
+    x_box = x_box*4;  y_box = y_box*4; z_box = z_box*4
+    # Replace zero lengths in case they are present by vdW radius
+    max_r_vdW = 0.0
+    for i in range(len(atoms)):
+        ri = r_vdW[atoms[i]]/100.0
+        if (ri > max_r_vdW):
+            max_r_vdW = ri
+        else:
+            pass
+    if (x_box < max_r_vdW):
+        x_box = 4*max_r_vdW
+    if (y_box < max_r_vdW):
+        y_box = 4*max_r_vdW
+    if (z_box < max_r_vdW):
+        z_box = 4*max_r_vdW
+    ##############################
+    vol_box = x_box*y_box*z_box
+    xc,yc,zc = centroid(x,y,z)
+    npts_in = 0.0
+    for i in range(npts_mc):
+        xi = random.uniform(xc-x_box*0.5,xc+x_box*0.5)
+        yi = random.uniform(yc-y_box*0.5,yc+y_box*0.5)
+        zi = random.uniform(zc-z_box*0.5,zc+z_box*0.5)
+        # Check if point is inside the molecule
+        for j in range(N_A):
+            dist = m.sqrt((xi-x[j])**2 + (yi-y[j])**2 + (zi-z[j])**2)
+            if (dist < r_vdW[atoms[j]]/100.0):
+                npts_in = npts_in + 1.0
+                break
+            else:
+                pass
+    vol_mol = vol_box*npts_in/npts_mc
+    return vol_mol
+
+# Molecular vdW surface area evaluated with Monte Carlo
+# xyz are the atomic coordinates
+def mc_area(atoms,x,y,z):
+    N_A = len(x)
+    dl = 0.1  # length of MC lines in Angstroms
+    x_box, y_box, z_box = max_r(x,y,z)
+    x_box = x_box*4;  y_box = y_box*4; z_box = z_box*4
+    # Replace zero lengths in case they are present by covalent radius
+    max_r_vdW = 0.0
+    for i in range(len(atoms)):
+        ri = r_vdW[atoms[i]]/100.0
+        if (ri > max_r_vdW):
+            max_r_vdW = ri
+        else:
+            pass
+    if (x_box < max_r_vdW):
+        x_box = 4*max_r_vdW
+    if (y_box < max_r_vdW):
+        y_box = 4*max_r_vdW
+    if (z_box < max_r_vdW):
+        z_box = 4*max_r_vdW
+    ##############################
+    vol_box = x_box*y_box*z_box
+    xc,yc,zc = centroid(x,y,z)
+    nlines_in = 0.0
+    for i in range(npts_mc):
+        xi = random.uniform(xc-x_box*0.5,xc+x_box*0.5)
+        yi = random.uniform(yc-y_box*0.5,yc+y_box*0.5)
+        zi = random.uniform(zc-z_box*0.5,zc+z_box*0.5)
+        xf = random.uniform(-1,1)
+        yf = random.uniform(-1,1)
+        zf = random.uniform(-1,1)
+        dli = m.sqrt(xf**2 + yf**2 + zf**2)
+        xf1, yf1, zf1 = xi+xf*dl/dli, yi+yf*dl/dli, zi+zf*dl/dli
+        xf2, yf2, zf2 = xi-xf*dl/dli, yi-yf*dl/dli, zi-zf*dl/dli
+        # Check if only one of the line endpoints is inside the molecule
+        for j in range(N_A):
+            dist1 = m.sqrt((xf1-x[j])**2 + (yf1-y[j])**2 + (zf1-z[j])**2)
+            dist2 = m.sqrt((xf2-x[j])**2 + (yf2-y[j])**2 + (zf2-z[j])**2)
+            rj = r_vdW[atoms[j]]/100.0
+            if ( ((dist1 < rj) & (dist2 > rj)) | ((dist1 > rj) & (dist2 < rj)) ):
+                nlines_in = nlines_in + 1.0
+                break
+            else:
+                pass
+    area_mol = vol_box*nlines_in/(npts_mc*dl)
+    return area_mol
+
+# Solvent accessible surface area evaluated with MC
+# xyz are the atomic coordinates
+def mc_sasa(atoms,x,y,z):
+    N_A = len(x)
+    dl = 0.1  # length of MC lines in Angstroms
+    x_box, y_box, z_box = max_r(x,y,z)
+    x_box = x_box*4;  y_box = y_box*4; z_box = z_box*4
+    # Replace zero lengths in case they are present by covalent radius
+    max_r_sasa = 0.0
+    for i in range(len(atoms)):
+        ri = r_sasa[atoms[i]]/100.0
+        if (ri > max_r_sasa):
+            max_r_sasa = ri
+        else:
+            pass
+    if (x_box < max_r_sasa):
+        x_box = 4*max_r_sasa
+    if (y_box < max_r_sasa):
+        y_box = 4*max_r_sasa
+    if (z_box < max_r_sasa):
+        z_box = 4*max_r_sasa
+    ##############################
+    vol_box = x_box*y_box*z_box
+    xc,yc,zc = centroid(x,y,z)
+    nlines_in = 0.0
+    for i in range(npts_mc):
+        xi = random.uniform(xc-x_box*0.5,xc+x_box*0.5)
+        yi = random.uniform(yc-y_box*0.5,yc+y_box*0.5)
+        zi = random.uniform(zc-z_box*0.5,zc+z_box*0.5)
+        xf = random.uniform(-1,1)
+        yf = random.uniform(-1,1)
+        zf = random.uniform(-1,1)
+        dli = m.sqrt(xf**2 + yf**2 + zf**2)
+        xf1, yf1, zf1 = xi+xf*dl/dli, yi+yf*dl/dli, zi+zf*dl/dli
+        xf2, yf2, zf2 = xi-xf*dl/dli, yi-yf*dl/dli, zi-zf*dl/dli
+        # Check if only one of the line endpoints is inside the molecule
+        for j in range(N_A):
+            dist1 = m.sqrt((xf1-x[j])**2 + (yf1-y[j])**2 + (zf1-z[j])**2)
+            dist2 = m.sqrt((xf2-x[j])**2 + (yf2-y[j])**2 + (zf2-z[j])**2)
+            rj = r_sasa[atoms[j]]/100.0
+            if ( ((dist1 < rj) & (dist2 > rj)) | ((dist1 > rj) & (dist2 < rj)) ):
+                nlines_in = nlines_in + 1.0
+                break
+            else:
+                pass
+    area_mol = vol_box*nlines_in/(npts_mc*dl)
+    return area_mol
+
+    
+#############################
+###### Compute Entropy ######
+#############################
+start = time.time()
+# Get the solute's number of atoms, moment of inertia, and geometric radius
+N_line = 0
+atoms_solute = []; x_solute = []; y_solute = []; z_solute = []
+f_solute = open(solute_xyz,"r")
+for line in f_solute.readlines():
+    N_line = N_line + 1
+    aline = line.split()    
+    if (N_line == 1):
+        NA_solute = int(aline[0])
+    elif ((N_line >= 3) & (N_line < NA_solute+3)):
+        aline[0] = aline[0].lower().title()        
+        atoms_solute.append(aline[0])
+        x_solute.append(float(aline[1]))
+        y_solute.append(float(aline[2]))
+        z_solute.append(float(aline[3]))
+    else:
+        pass
+f_solute.close()
+
+# Get the solvent's atoms and coordinates
+N_line = 0
+atoms_solvent = []; x_solvent = []; y_solvent = []; z_solvent = []
+f_solvent = open(solvent_xyz,"r")
+for line in f_solvent.readlines():
+    N_line = N_line + 1
+    aline = line.split()    
+    if (N_line == 1):
+        NA_solvent = int(aline[0])
+    elif ((N_line >= 3) & (N_line < NA_solvent+3)):
+        aline[0] = aline[0].lower().title()                
+        atoms_solvent.append(aline[0])
+        x_solvent.append(float(aline[1]))
+        y_solvent.append(float(aline[2]))
+        z_solvent.append(float(aline[3]))
+    else:
+        pass
+f_solvent.close()
+
+
+# Compute surface area and volumes of solute and solvent if not provided
+# in the input file
+if (area_solute == 0):
+    area_solute = mc_area(atoms_solute,x_solute,y_solute,z_solute)
+if (vol_solute == 0):
+    vol_solute = mc_volume(atoms_solute,x_solute,y_solute,z_solute)
+if (area_solvent == 0):
+    area_solvent = mc_area(atoms_solvent,x_solvent,y_solvent,z_solvent)
+if (vol_solvent == 0):
+    vol_solvent = mc_volume(atoms_solvent,x_solvent,y_solvent,z_solvent)
+    
+
+########################################################    
+###### Compute Rotational Contribution to Entropy ######
+########################################################    
+# Average moment of inertia of solute
+psi_solute = sphericity(vol_solute,area_solute)
+B_av = moment_inertia(atoms_solute,x_solute,y_solute,z_solute)
+if (B_av == 0.):
+    S_r = 0; S_r_gas = 0; S_v = 0
+    S_ri0 = 0; S_rif = 0; S_ri1 = 0; S_ri2 = 0; S_ri3 = 0; S_ri4 = 0
+    S_rv = 0
+else:
+    if (linear_mol):
+        n_rot = 2
+    else:
+        n_rot = 3    
+    B_av = B_av*((1E-10)**2)*(1.66054E-27)/(1.6022E-19) # unit conversion
+    mu1 = h/(8*(pi**2)*nu)
+    mu2 = mu1*B_av/(mu1 + B_av)
+    fac = m.exp(u) - 1
+    qr_mu = m.sqrt((8*(pi**3)*k*T*mu2)/(h**2))
+    qr = m.sqrt((8*(pi**3)*k*T*B_av)/(h**2))
+    w = 1/(1+(u0_r/u)**4)
+    S_v = k*(u/fac - m.log(1-m.exp(-u)))
+    S_r = k*(0.5 + m.log(qr) - m.log(sigma_r)/n_rot)
+    S_r_gas = n_rot*k*(0.5 + m.log(qr) - m.log(sigma_r)/n_rot)
+    S_r_mu = w*S_v + (1-w)*k*(0.5 + m.log(qr_mu)) #- (1-w)*k*m.log(sigma_r)/n_rot
+    if (interp_vol):
+        rab = (vol_solute/vol_solvent)
+    else:
+        #rab = (vol_solute/vol_solvent)**(1/3)
+        rab = abs(vol_solute**(3/3) - vol_solvent**(3/3))/(vol_solvent**(3/3))
+        rab2 = (vol_solute/vol_solvent)
+    if (interp_Sr):
+        fac = n_rot*sigma_r
+        rab = abs(area_solute - area_solvent)/(area_solvent)
+#        dipole_int = 2*1E-30*dipole_solute*dipole_solvent*(3.335**2)/ \
+#                     (4*pi*epsilon_0*epsilon_r*vol_solute)
+#        dipole_solute = min(abs(dipole_solute-dipole_solvent),dipole_solute)
+#        dipole_solute = abs(dipole_solute-dipole_solvent)
+        if (abs(dipole_solute - dipole_solvent) < dipole_solute):
+            dipole_eff = abs(dipole_solute - dipole_solvent)
+        else:
+            dipole_eff = dipole_solute
+        epsilon_r = 1
+        dipole_int = 2*1E-30*dipole_eff*dipole_solvent*(3.335**2)/ \
+                     (4*pi*epsilon_0*epsilon_r*vol_solute*3*m.sqrt(3)/8)
+        kT = (k*T)*(1.60218E-19)
+        psi_solvent = sphericity(vol_solvent,area_solvent)
+        xfac = 3*m.log((pi*m.sqrt(3)/6))/m.log(pi/6)
+        fac = ((psi_solute/psi_solvent)**xfac)
+        rab = rab*fac
+        p_rot = m.exp(-(1 - psi_solute)*rab/(n_rot*sigma_r)) * \
+                m.exp(-0.5*dipole_int/kT)
+        S_r = S_r_gas*p_rot + n_rot*S_r_mu*(1 - p_rot)
+        print("p_rot = ", p_rot)
+        print("p_rot2 = ", (psi_solute)**(rab2/fac))
+#        S_r = S_r_gas*((psi_solute)**(rab/fac)) +  \
+#                       n_rot*S_r_mu*(1 - (psi_solute**(rab/fac)))
+        if (interp_both):
+            p_rot = m.exp(-(1 - psi_solute)*rab/(n_rot*sigma_r)) 
+            S_rv = S_r_gas*p_rot + n_rot*S_r_mu*(1 - p_rot)
+#            fac = n_rot*sigma_r
+#            S_rv = S_r_gas*((psi_solute)**(rab2/fac)) +  \
+#                  n_rot*S_r_mu*(1 - (psi_solute**(rab2/fac)))            
+    else:
+        S_r = S_r_gas
+#print('sphericity = ', psi_solute)
+#rint('test = ', S_r_gas*23.06*1000)
+#######################################################
+
+###########################################################    
+###### Compute Translational Contribution to Entropy ######
+###########################################################
+m_solute = 0.0
+for i in range(NA_solute):
+    m_solute = m_solute + mass[atoms_solute[i]]
+kT = (k*T)*(1.60218E-19)
+h2 = (6.626E-34)**2
+msi = m_solute*(1.66054E-27)
+vc = vol_solute*((1E-10)**3)*m.sqrt(3)*pi/2#4*pi/3
+qt_gas = ((2*pi*msi*kT/h2)**(1.5))*kT/P
+qt = ((2*pi*msi*kT/h2)**(1.5))*vc*np.exp(-P*vc/kT)
+c_gas = (P/(8.314*T))/(1000) # M concentration of gas (to be used later)
+S_t = k*(m.log(qt) + 1 + 1.5 + P*vc/kT)
+S_t_gas = k*(m.log(qt_gas) + 1 + 1.5 )
+#########################################################
+
+
+
+
+###########################################
+##### Cavity Contributions to Entropy #####
+###########################################
+if (omega == 'not given'):
+    omega = 1 - sphericity(vol_solvent,area_solvent)
+use_sasa = False    
+if (use_sasa & (solvent_xyz != solute_xyz)):
+    if (sasa_solute == 0):
+        sasa_solute = mc_sasa(atoms_solute,x_solute,y_solute,z_solute)
+    if (sasa_solvent == 0):
+        sasa_solvent = mc_sasa(atoms_solvent,x_solvent,y_solvent,z_solvent)
+    fac = (sasa_solute/sasa_solvent)
+elif (use_sasa & (solvent_xyz == solute_xyz)):
+    fac = 1.0
+else:
+    fac = (area_solute/area_solvent)
+fac = (fac + 2*m.sqrt(fac))/3
+psi_solvent = sphericity(vol_solvent,area_solvent)
+xfac = 3*m.log((pi*m.sqrt(3)/6))/m.log(pi/6)
+fac = fac*((psi_solute/psi_solvent)**xfac)
+if (surface_tension):
+    S_cav = -(0.1514E-3)*area_solute*((1E-10)**2)*(6.242E18) #+ \
+#            (2/3)*(69E-6)*(72.8E-3)*area_solute*((1E-10)**2)*(6.242E18)
+    S_cav = S_cav/(4*pi)
+#    d_solvent = 2*(3*vol_solvent/(4*pi))**(1/3)
+#    sa_cube = ((3*vol_solvent/(4*pi))**(2/3))
+#    sa_cube = psi_solvent*((6*vol_solvent/(pi))**(2/3))
+#    k_g0 = -5.365*omega*k/(S_cav*area_solvent/area_solute)
+#    sa_cube =  vol_solvent**(2/3)
+#    sa_cube = (area_solvent/pi)
+ #   l1,l2,l3 = max_dist(atoms_solvent,x_solvent,y_solvent,z_solvent)
+ #   sa_cube = min(l1*l2,l1*l3,l2*l3) #(l1*l2*l3)**(2/3) 
+ #   print(l1,l2,l3)
+ #   print("sa_cube = ", sa_cube)
+ #   S_cav = S_cav*sa_cube/area_solvent
+#    S_cav = S_cav/(4*pi)
+#    S_cav = k_g0*S_cav
+#    print(k_g0)
+#    S_cav = S_cav*k_g0*fac*area_solvent/area_solute
+    #S_cav = S_cav*(1+ (k_g0-1)*((vol_solvent/vol_solute)**(2/3)))
+#    S_cav = S_cav*k_g0*((psi_solute/psi_solvent)**xfac)
+#    S_cav = S_cav*k_g0*((vol_solvent/vol_solute)**(3/3))
+#    S_cav = -(0.1514E-3)*area_solvent*((1E-10)**2)*(6.242E18)
+else:
+#    p1 = 5.40221 - 1838.675/(-31.737+T)
+#    p2 = m.log (220.64) #3.55959 - 643.748/(-198.043+647)
+#    Tr = T/647
+#    omega = 2.302*(p1 - p2)/(1-1/Tr)
+#    print('omega = ', omega)    
+    S_cav = -5.365*omega*fac*k
+
+
+################################################
+##### Vibrational Contributions to Entropy #####
+################################################
+# Grimme's approach (Chem. Eur. J. 2012, 18, 9955) is employed
+
+# Read frequencies
+vib_count = 0
+nu = []
+if (linear_mol):
+    N_vib = 3*NA_solute - 5
+else:
+    N_vib = 3*NA_solute - 6
+    
+f_freq = open(freq_file,"r")
+for line in f_freq.readlines():
+    aline = line.split()
+    if (len(aline) >= 3):
+        if (aline[0] == "Frequencies"):
+            vib_count = vib_count + 3
+            if (vib_count > N_vib):
+                nu = []
+                vib_count = 3 
+            nu.append(float(aline[2]))
+            if (len(aline) >= 4):
+                nu.append(float(aline[3]))
+            if (len(aline) >= 5):                
+                nu.append(float(aline[4]))
+    else:
+        pass
+f_freq.close()    
+
+S_vib = 0
+#print(nu)
+for i in range(0,len(nu)):
+    if (nu[i] > 0.0):
+        nui = nu[i]*c
+        u = h*nui/(k*T)
+        fac = m.exp(u) - 1        
+        # Grimme's correction
+        mu1 = h/(8*(pi**2)*nui)
+        mu2 = mu1*B_av/(mu1 + B_av)
+        x = m.sqrt((8*(pi**3)*k*T*mu2)/(h**2))
+        S_r2 = k*(0.5 + m.log(x))
+        S_v = k*(u/fac - m.log(1-m.exp(-u)))
+        w = 1/(1+(u0/u)**4)
+        S_vib = S_vib + w*S_v + (1-w)*S_r2
+
+
+S_r = S_r*23.06*1000; S_t = S_t*23.06*1000
+S_vib = S_vib*23.06*1000; S_cav = S_cav*23.06*1000
+S_r_gas = S_r_gas*23.06*1000; S_t_gas = S_t_gas*23.06*1000
+S_tot = S_r + S_t + S_cav + S_vib
+S_gas = S_r_gas + S_t_gas + S_vib
+# Print results
+print("use_sasa = ", use_sasa)
+print("r_probe = ", r_probe)
+print("sphericities (solvent, solute) = ", psi_solvent, psi_solute)
+print("interp_vol = ", interp_vol)
+print("area_solute = ", area_solute)
+print("vol_solute = ", vol_solute)
+print("area_solvent = ", area_solvent)
+print("vol_solvent = ", vol_solvent)
+print("sasa_solvent = ", sasa_solvent)
+print("sasa_solute = ", sasa_solute)
+print("S_gas t r v = ", S_t_gas, S_r_gas, S_vib)
+print("S_gas (Total) = ", S_gas)
+print("S_sol t r v cav = ", S_t, S_r, S_vib, S_cav)
+print("S_sol (Total) = ", S_tot)
+#S_gas = S_gas + k*m.log(concentration/c_gas)*23.06*1000
+end = time.time()
+print("Time = ", end - start)
+print(" Test Results: ")
+print("DS_sol")
+DS = S_tot - S_gas - k*m.log(concentration/c_gas)*23.06*1000
+S_rv = S_rv*23.06*1000
+DS2 = DS - S_r + S_rv
+DS0 = DS - S_r +S_r_gas
+print('%.2f'%DS0,'%.2f'%DS2,'%.2f'%DS)#, S_tot - k*m.log(concentration*24.5)*23.06*1000)
+#print(concentration)

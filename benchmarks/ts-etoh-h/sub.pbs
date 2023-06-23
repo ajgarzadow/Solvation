@@ -1,0 +1,23 @@
+#!/bin/csh
+#PBS -N dftb
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=02:00:00
+
+cd $PBS_O_WORKDIR
+setenv ORIDIR /home/ua25450/ecp/dftb
+
+setenv XTBHOME /home/ua25450/dftb
+
+setenv OMP_NUM_THREADS 2
+setenv MKL_NUM_THREADS 2
+setenv OMP_STACKSIZE 1000m
+limit stacksize unlimited
+
+
+$XTBHOME/xtb  calc.xyz -hess > calc.log
+wait
+
+exit
+
+
+

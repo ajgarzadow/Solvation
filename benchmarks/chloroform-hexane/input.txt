@@ -1,0 +1,46 @@
+
+solvent = hexane.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 1
+symmetry = 3
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # true only if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+#omega = 0.212 # benzene
+#omega = 0.325 # m-Xylene
+#omega = 0.310 # o-Xylene
+#omega = 0.251 # n-pentane
+#omega = 0.227 # isopentane
+#omega = 0.398 # n-octane
+#omega = 0.263 # toluene
+omega = 0.299 # n-hexane
+
+area_solute =  155.6810250480123
+vol_solute =  69.28834343876952
+
+area_solvent =  420.16767433952873
+vol_solvent =  112.00092456152333
+
+dipole_solute = 1.203
+dipole_solvent = 0
+epsilon_r = 1.89
+
+rho_solvent = 0.655
+alpha = 0.00141
+symmetry_solvent = 2
+dipole_file = calc.log
+dipole_file_solvent = chloroform.log
+MBB_Solute =  195.4269165194724
+MBB_Solvent =  268.0510067547174
+MBB_Solute =  195.4269165194724
+MBB_Solvent =  268.0510067547174

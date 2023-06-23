@@ -1,0 +1,43 @@
+
+solvent = water.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+#concentration = 3.4E-6
+#concentration = 3.4E-3
+#concentration = 1.42E-4
+concentration = 1
+symmetry = 2
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = true # if the solute molecule is linear
+
+omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+
+area_solute =  83.73651655990953
+vol_solute =  31.748632775417626
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023
+sasa_solvent =  49.650340896390425
+sasa_solute =  123.31374437215464
+
+dipole_solute = 0
+dipole_solvent = 2.217
+epsilon_r = 78.54
+rho_solvent = 1.0
+alpha = 207E-6
+sigma_0 = 72.8E-3
+dsigma_dt = -0.1514E-3
+T_c = 647
+dipole_file = calc.log
+dipole_file_solvent = water.log
+MBB_Solute =  95.32890905143273
+MBB_Solvent =  71.07776112016799
+MBB_Solute =  95.32890905143273
+MBB_Solvent =  71.07776112016799

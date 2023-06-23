@@ -1,0 +1,43 @@
+
+solvent = calc.xyz
+solute = calc.xyz
+#temperature = 298.15
+temperature = 165.051
+pressure = 1 # pressure in bar
+#concentration = 1.4E-6
+#concentration = 1.4E-3
+#concentration = 5.7E-5
+concentration = 22.4
+symmetry = 1
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = False # if the solute molecule is linear
+
+#omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.001 # Argon
+omega = 0.008 # Xenon
+
+
+area_solvent =  57.86693664768001
+vol_solvent =  42.31213380403201
+area_solute =  57.86693664768001
+vol_solute =  42.31213380403201
+
+
+dipole_solute = 0.0
+dipole_solvent = 0.0
+epsilon_r = 1
+
+rho_solvent = 2.942
+#alpha = 4.3E-4
+dipole_file = calc.log
+dipole_file_solvent = calc.log
+MBB_Solute =  111.9744
+MBB_Solvent =  111.9744
+MBB_Solute =  111.9744
+MBB_Solvent =  111.9744

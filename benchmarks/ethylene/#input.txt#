@@ -1,0 +1,32 @@
+
+solvent = ethylene.xyz
+solute = ethylene.xyz
+temperature = 169.4
+#temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 20.3
+symmetry = 4
+#omega = 0.344 #water
+omega = 0.089 #ethylene
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+
+area_solute =  126.54900930090548
+vol_solute =  38.36367118269339
+#area_solvent =  125.7007125351558
+#vol_solvent =  38.21014658070757
+area_solvent =  126.54900930090548
+vol_solvent =  38.36367118269339
+
+alpha = 2.4E-3
+
+rho_solvent = 0.57
+dipole_file = calc.log
+dipole_file_solvent = calc.log
+MBB_Solute =  102.86877085893695
+MBB_Solvent =  102.86877085893695
+MBB_Solute =  102.86877085893695
+MBB_Solvent =  102.86877085893695

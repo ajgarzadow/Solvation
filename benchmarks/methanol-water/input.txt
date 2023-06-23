@@ -1,0 +1,56 @@
+
+solvent = water.xyz
+solute = calc.xyz
+temperature = 298.15
+pressure = 1 # pressure in bar
+concentration = 1
+symmetry = 1
+nu0 = 100
+nu0_t = 100
+nu0_r = 100
+freq_file = g98.out
+interpolate_Sr = True
+linear = false # if the solute molecule is linear
+
+omega = 0.344 #water
+#omega = 0.089 #ethylene
+#omega = 0.229 # iodine 
+#omega = 0.212 # cyclohexane
+#omega = 0.212 # benzene
+#omega = 0.325 # m-Xylene
+#omega = 0.310 # o-Xylene
+#omega = 0.251 # n-pentane
+#omega = 0.227 # isopentane
+#omega = 0.398 # n-octane
+#omega = 0.299 # n-octane
+#omega = 0.218 # chloroform
+#omega = 0.303 # acetaldehyde
+#omega = 0.304 # acetone
+#omega = 0.447 # acetic acid
+#omega = 0.278 # acetonitrile
+#omega = 0.200 # methyl ether
+#omega = 0.281 # ethyl ether
+#omega = 0.593 # butanol
+#omega = 0.592 # isobutanol
+#omega = 0.556 # methanol
+
+
+area_solute =  118.09635039464604
+vol_solute =  35.24161027556643
+area_solvent =  42.04307436665825
+vol_solvent =  15.24126833448023
+
+dipole_solute = 1.916
+dipole_solvent = 2.217
+epsilon_r = 78.54
+rho_solvent = 1.0
+alpha = 207E-6
+sigma_0 = 72.8E-3
+dsigma_dt = -0.1514E-3
+T_c = 647
+dipole_file = calc.log
+dipole_file_solvent = water.log
+MBB_Solute =  119.5193517064103
+MBB_Solvent =  71.07776112016799
+MBB_Solute =  119.5193517064103
+MBB_Solvent =  71.07776112016799
